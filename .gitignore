@@ -7,3 +7,5 @@ next-env.d.ts
 dist-electron
 /tmp
 *.log
+.claude/
+*.html

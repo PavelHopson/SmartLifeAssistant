@@ -1,6 +1,8 @@
 {
   "name": "smart-life-assistant",
   "version": "0.1.0",
+  "description": "Personal action OS for managing finances, subscriptions, and daily tasks",
+  "author": "Pavel Hopson",
   "private": true,
   "main": "electron/main.js",
   "scripts": {
@@ -19,19 +21,14 @@
   "build": {
     "appId": "com.smartlife.assistant",
     "productName": "Smart Life Assistant",
+    "npmRebuild": false,
+    "asar": false,
     "directories": {
       "output": "dist-electron"
     },
     "files": [
       "electron/**/*",
-      "public/**/*",
-      ".next/**/*",
-      "node_modules/**/*",
-      "package.json",
-      "next.config.ts",
-      "prisma/**/*",
-      "src/**/*",
-      ".env"
+      "package.json"
     ],
     "win": {
       "target": [
@@ -54,16 +51,28 @@
     },
     "extraResources": [
       {
-        "from": ".",
-        "to": "app",
-        "filter": [
-          ".next/**/*",
-          "public/**/*",
-          "node_modules/**/*",
-          "package.json",
-          "next.config.ts",
-          ".env"
-        ]
+        "from": ".next",
+        "to": "app/.next"
+      },
+      {
+        "from": "public",
+        "to": "app/public"
+      },
+      {
+        "from": "node_modules",
+        "to": "app/node_modules"
+      },
+      {
+        "from": "prisma",
+        "to": "app/prisma"
+      },
+      {
+        "from": "package.json",
+        "to": "app/package.json"
+      },
+      {
+        "from": "next.config.ts",
+        "to": "app/next.config.ts"
       }
     ]
   },
