@@ -1,0 +1,98 @@
+{
+  "name": "smart-life-assistant",
+  "version": "0.1.0",
+  "private": true,
+  "main": "electron/main.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:seed": "npx tsx prisma/seed.ts",
+    "electron": "electron .",
+    "electron:dev": "electron .",
+    "electron:build": "next build && electron-builder",
+    "electron:pack": "electron-builder --dir"
+  },
+  "build": {
+    "appId": "com.smartlife.assistant",
+    "productName": "Smart Life Assistant",
+    "directories": {
+      "output": "dist-electron"
+    },
+    "files": [
+      "electron/**/*",
+      "public/**/*",
+      ".next/**/*",
+      "node_modules/**/*",
+      "package.json",
+      "next.config.ts",
+      "prisma/**/*",
+      "src/**/*",
+      ".env"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "public/icons/icon-256.ico"
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Smart Life Assistant"
+    },
+    "extraResources": [
+      {
+        "from": ".",
+        "to": "app",
+        "filter": [
+          ".next/**/*",
+          "public/**/*",
+          "node_modules/**/*",
+          "package.json",
+          "next.config.ts",
+          ".env"
+        ]
+      }
+    ]
+  },
+  "dependencies": {
+    "@auth/prisma-adapter": "^2.11.1",
+    "@prisma/client": "^6.19.2",
+    "@tailwindcss/postcss": "^4.2.2",
+    "auto-launch": "^5.0.6",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.6.0",
+    "next": "^16.2.1",
+    "next-auth": "^5.0.0-beta.30",
+    "next-intl": "^4.8.3",
+    "postcss": "^8.5.8",
+    "prisma": "^6.19.2",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "tailwind-merge": "^3.5.0",
+    "tailwindcss": "^4.2.2",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "electron": "^41.0.4",
+    "electron-builder": "^26.8.1",
+    "eslint": "^9.39.4",
+    "eslint-config-next": "^16.2.1",
+    "typescript": "^5.9.3"
+  }
+}

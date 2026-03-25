@@ -1,0 +1,435 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── AUTH ────────────────────────────────────────────
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  image     String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Onboarding progress
+  onboardingBankConnected       Boolean   @default(false) @map("onboarding_bank_connected")
+  onboardingTransactionsSynced  Boolean   @default(false) @map("onboarding_transactions_synced")
+  onboardingSubscriptionsDetected Boolean @default(false) @map("onboarding_subscriptions_detected")
+  onboardingActionsGenerated    Boolean   @default(false) @map("onboarding_actions_generated")
+  onboardingWowSeen             Boolean   @default(false) @map("onboarding_wow_seen")
+  onboardingCompletedAt         DateTime? @map("onboarding_completed_at")
+
+  providerConnections     ProviderConnection[]
+  accounts                Account[]
+  transactions            Transaction[]
+  subscriptions           Subscription[]
+  aiActions               AiAction[]
+  actionExecutions        ActionExecution[]
+  authAccounts            AuthAccount[]
+  sessions                Session[]
+  notifications           Notification[]
+  notificationPreference  NotificationPreference?
+  devices                 Device[]
+  tasks                   Task[]
+  widgets                 Widget[]
+  jobs                    Job[]
+
+  @@map("users")
+}
+
+model AuthAccount {
+  id                String  @id @default(cuid())
+  userId            String  @map("user_id")
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("auth_accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique @map("session_token")
+  userId       String   @map("user_id")
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+// ─── BANKING ────────────────────────────────────────
+
+model ProviderConnection {
+  id           String    @id @default(cuid())
+  userId       String    @map("user_id")
+  provider     String    @default("truelayer")
+  accessToken  String?   @map("access_token")
+  refreshToken String?   @map("refresh_token")
+  expiresAt    DateTime? @map("expires_at")
+  status       String    @default("pending")
+  rawPayload   Json?     @map("raw_payload")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accounts Account[]
+
+  @@map("provider_connections")
+}
+
+model Account {
+  id                   String    @id @default(cuid())
+  userId               String    @map("user_id")
+  providerConnectionId String    @map("provider_connection_id")
+  externalId           String    @map("external_id")
+  name                 String
+  type                 String
+  currency             String    @default("GBP")
+  balance              Float?
+  lastSyncedAt         DateTime? @map("last_synced_at")
+  rawPayload           Json?     @map("raw_payload")
+  createdAt            DateTime  @default(now()) @map("created_at")
+  updatedAt            DateTime  @updatedAt @map("updated_at")
+
+  user               User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  providerConnection ProviderConnection @relation(fields: [providerConnectionId], references: [id], onDelete: Cascade)
+  transactions       Transaction[]
+
+  @@unique([providerConnectionId, externalId])
+  @@map("accounts")
+}
+
+model Transaction {
+  id              String   @id @default(cuid())
+  userId          String   @map("user_id")
+  accountId       String   @map("account_id")
+  externalId      String?  @map("external_id")
+  amount          Float
+  currency        String   @default("GBP")
+  direction       String
+  description     String
+  merchantName    String?  @map("merchant_name")
+  normalizedName  String?  @map("normalized_name")
+  category        String?
+  transactionDate DateTime @map("transaction_date")
+  rawPayload      Json?    @map("raw_payload")
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  account Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@unique([accountId, externalId])
+  @@index([userId, transactionDate])
+  @@index([userId, normalizedName])
+  @@map("transactions")
+}
+
+// ─── SUBSCRIPTIONS ──────────────────────────────────
+
+model Subscription {
+  id               String    @id @default(cuid())
+  userId           String    @map("user_id")
+  merchantName     String    @map("merchant_name")
+  normalizedName   String    @map("normalized_name")
+  estimatedAmount  Float     @map("estimated_amount")
+  currency         String    @default("GBP")
+  frequency        String
+  status           String    @default("active")
+  lastChargeDate   DateTime? @map("last_charge_date")
+  nextChargeDate   DateTime? @map("next_charge_date")
+  transactionCount Int       @default(0) @map("transaction_count")
+  potentialSaving  Float?    @map("potential_saving")
+  daysSinceLastUse Int?      @map("days_since_last_use")
+  detectedAt       DateTime  @default(now()) @map("detected_at")
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime  @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, normalizedName])
+  @@map("subscriptions")
+}
+
+// ─── AI ACTIONS & EXECUTION ─────────────────────────
+
+model AiAction {
+  id                   String    @id @default(cuid())
+  userId               String    @map("user_id")
+  kind                 String
+  status               String    @default("draft") // draft|pending_user|confirmed|queued|running|done|failed|requires_manual_step|expired
+  priority             Int       @default(0)
+  groupId              String?   @map("group_id")
+  sourceType           String?   @map("source_type")
+  sourceId             String?   @map("source_id")
+  title                String
+  summary              String?
+  explanation          String?
+  impactAmount         Float?    @map("impact_amount")
+  payload              Json?
+  riskLevel            String    @default("low") @map("risk_level")
+  confidenceScore      Float     @default(0.8) @map("confidence_score")
+  confirmationRequired Boolean   @default(true) @map("confirmation_required")
+  confirmedAt          DateTime? @map("confirmed_at")
+  completedAt          DateTime? @map("completed_at")
+  expiresAt            DateTime? @map("expires_at")
+  createdAt            DateTime  @default(now()) @map("created_at")
+  updatedAt            DateTime  @updatedAt @map("updated_at")
+
+  user       User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  executions ActionExecution[]
+  tasks      Task[]
+
+  @@index([userId, status])
+  @@index([userId, groupId])
+  @@map("ai_actions")
+}
+
+model ActionExecution {
+  id                String    @id @default(cuid())
+  actionId          String    @map("action_id")
+  userId            String    @map("user_id")
+  executorType      String    @map("executor_type") // cancel_subscription_executor, manual_step, etc.
+  status            String    @default("pending") // pending|running|done|failed|requires_manual_step
+  errorMessage      String?   @map("error_message")
+  resultPayload     Json?     @map("result_payload")
+  requiresManualStep Boolean  @default(false) @map("requires_manual_step")
+  manualStepLabel   String?   @map("manual_step_label")
+  manualStepUrl     String?   @map("manual_step_url")
+  estimatedTime     String?   @map("estimated_time")
+  retryable         Boolean   @default(false)
+  retryCount        Int       @default(0) @map("retry_count")
+  startedAt         DateTime  @default(now()) @map("started_at")
+  completedAt       DateTime? @map("completed_at")
+
+  action AiAction @relation(fields: [actionId], references: [id], onDelete: Cascade)
+  user   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([actionId])
+  @@map("action_executions")
+}
+
+// ─── NOTIFICATIONS ──────────────────────────────────
+
+model Notification {
+  id                String    @id @default(cuid())
+  userId            String    @map("user_id")
+  type              String    // action_generated|action_confirmed|action_requires_manual_step|action_completed|savings_detected|reminder_due
+  title             String
+  body              String
+  channel           String    @default("in_app") // in_app|email|sms|push
+  status            String    @default("pending") // pending|sent|read|failed
+  relatedEntityType String?   @map("related_entity_type") // ai_action|subscription|task
+  relatedEntityId   String?   @map("related_entity_id")
+  scheduledFor      DateTime? @map("scheduled_for")
+  sentAt            DateTime? @map("sent_at")
+  readAt            DateTime? @map("read_at")
+  payload           Json?
+  createdAt         DateTime  @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, status])
+  @@index([userId, readAt])
+  @@map("notifications")
+}
+
+model NotificationPreference {
+  id               String  @id @default(cuid())
+  userId           String  @unique @map("user_id")
+  inAppEnabled     Boolean @default(true) @map("in_app_enabled")
+  emailEnabled     Boolean @default(true) @map("email_enabled")
+  smsEnabled       Boolean @default(false) @map("sms_enabled")
+  pushEnabled      Boolean @default(false) @map("push_enabled")
+  quietHoursStart  String? @map("quiet_hours_start")
+  quietHoursEnd    String? @map("quiet_hours_end")
+  criticalOnlySms  Boolean @default(true) @map("critical_only_sms")
+
+  // Dashboard preferences
+  showAiSummary    Boolean @default(true) @map("show_ai_summary")
+  summaryStyle     String  @default("concise") @map("summary_style") // concise | detailed
+  enableLlm        Boolean @default(false) @map("enable_llm")
+
+  // Widget preferences
+  autoCreateWidgets Boolean @default(true) @map("auto_create_widgets")
+  defaultWidgetColor String @default("#3b82f6") @map("default_widget_color")
+  popupReminders    Boolean @default(true) @map("popup_reminders")
+  overdueHighlight  Boolean @default(true) @map("overdue_highlight")
+
+  // Reminder preferences
+  dueSoonReminders   Boolean @default(true) @map("due_soon_reminders")
+  overdueReminders   Boolean @default(true) @map("overdue_reminders")
+  staleActionReminders Boolean @default(true) @map("stale_action_reminders")
+  defaultSnoozeMins  Int     @default(1440) @map("default_snooze_mins") // 24h
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("notification_preferences")
+}
+
+// ─── EXPERIMENTS ─────────────────────────────────────
+
+model ExperimentAssignment {
+  id             String   @id @default(cuid())
+  userId         String   @map("user_id")
+  experimentName String   @map("experiment_name") // overdue_cooldown | stale_reminder_timing | due_soon_window
+  variant        String   // control | variant_a | variant_b
+  assignedAt     DateTime @default(now()) @map("assigned_at")
+
+  @@unique([userId, experimentName])
+  @@index([experimentName, variant])
+  @@map("experiment_assignments")
+}
+
+// ─── DEVICES & SYNC ─────────────────────────────────
+
+model Device {
+  id                String    @id @default(cuid())
+  userId            String    @map("user_id")
+  type              String    // web|mobile|desktop
+  name              String
+  platform          String?   // windows|macos|ios|android|web
+  lastSeenAt        DateTime  @default(now()) @map("last_seen_at")
+  notificationToken String?   @map("notification_token")
+  isActive          Boolean   @default(true) @map("is_active")
+  lastSyncedAt      DateTime? @map("last_synced_at")
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime  @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, isActive])
+  @@map("devices")
+}
+
+// ─── TASKS ──────────────────────────────────────────
+
+model Task {
+  id              String    @id @default(cuid())
+  userId          String    @map("user_id")
+  title           String
+  description     String?
+  status          String    @default("open") // open|in_progress|done|archived
+  priority        Int       @default(1) // 0=urgent, 1=high, 2=normal
+  dueAt           DateTime? @map("due_at")
+  completedAt     DateTime? @map("completed_at")
+  sourceType      String?   @map("source_type") // ai_action|manual|system
+  sourceId        String?   @map("source_id")
+  aiGenerated     Boolean   @default(false) @map("ai_generated")
+  widgetEligible  Boolean   @default(true) @map("widget_eligible")
+  pinned          Boolean   @default(false)
+  reminderAt      DateTime? @map("reminder_at")
+  reminderSentAt  DateTime? @map("reminder_sent_at")
+  snoozedUntil    DateTime? @map("snoozed_until")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  aiAction AiAction? @relation(fields: [sourceId], references: [id])
+  widgets  Widget[]
+
+  @@index([userId, status])
+  @@index([userId, dueAt])
+  @@map("tasks")
+}
+
+// ─── WIDGETS ────────────────────────────────────────
+
+model Widget {
+  id                String    @id @default(cuid())
+  userId            String    @map("user_id")
+  taskId            String?   @map("task_id")
+  title             String
+  color             String    @default("#3b82f6")
+  backgroundImageUrl String?  @map("background_image_url")
+  positionX         Float     @default(0) @map("position_x")
+  positionY         Float     @default(0) @map("position_y")
+  width             Float     @default(200)
+  height            Float     @default(160)
+  zIndex            Int       @default(1) @map("z_index")
+  pinned            Boolean   @default(false)
+  locked            Boolean   @default(false)
+  visible           Boolean   @default(true)
+  dueAt             DateTime? @map("due_at")
+  popupEnabled      Boolean   @default(false) @map("popup_enabled")
+  drawingData       Json?     @map("drawing_data")
+  photoUrl          String?   @map("photo_url")
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime  @updatedAt @map("updated_at")
+
+  user User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  task Task? @relation(fields: [taskId], references: [id])
+
+  @@index([userId, visible])
+  @@map("widgets")
+}
+
+// ─── JOBS ───────────────────────────────────────────
+
+model Job {
+  id           String    @id @default(cuid())
+  userId       String    @map("user_id")
+  type         String    // sync_transactions|generate_actions|send_notifications|refresh_subscriptions|due_task_scan|dashboard_summary_refresh
+  status       String    @default("pending") // pending|locked|running|done|failed
+  priority     Int       @default(1)
+  payload      Json?
+  result       Json?
+  errorMessage String?   @map("error_message")
+  retryCount   Int       @default(0) @map("retry_count")
+  maxRetries   Int       @default(3) @map("max_retries")
+  lockedAt     DateTime? @map("locked_at")
+  lockedBy     String?   @map("locked_by") // worker id for distributed locking
+  scheduledFor DateTime? @map("scheduled_for")
+  startedAt    DateTime? @map("started_at")
+  completedAt  DateTime? @map("completed_at")
+  nextRetryAt  DateTime? @map("next_retry_at")
+  durationMs   Int?      @map("duration_ms")
+  createdAt    DateTime  @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([status, scheduledFor])
+  @@index([userId, type])
+  @@map("jobs")
+}
+
+// ─── ANALYTICS ──────────────────────────────────────
+
+model AnalyticsEvent {
+  id          String   @id @default(cuid())
+  userId      String   @map("user_id")
+  eventType   String   @map("event_type") // bank_connected|transactions_synced|action_confirmed|task_completed|wow_seen|share_card_used|widget_created|...
+  entityType  String?  @map("entity_type") // subscription|ai_action|task|widget|notification
+  entityId    String?  @map("entity_id")
+  metadata    Json?
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@index([userId, eventType])
+  @@index([eventType, createdAt])
+  @@map("analytics_events")
+}
