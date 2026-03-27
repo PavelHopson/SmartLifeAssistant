@@ -1,6 +1,6 @@
 {
   "name": "smart-life-assistant",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Personal action OS for managing finances, subscriptions, and daily tasks",
   "author": "Pavel Hopson",
   "private": true,
