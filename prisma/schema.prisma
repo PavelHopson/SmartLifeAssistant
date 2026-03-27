@@ -17,6 +17,12 @@ model User {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
+  // Plan / billing
+  plan              String    @default("free") // free | premium | trial
+  planStartedAt     DateTime? @map("plan_started_at")
+  planExpiresAt     DateTime? @map("plan_expires_at")
+  trialUsed         Boolean   @default(false) @map("trial_used")
+
   // Onboarding progress
   onboardingBankConnected       Boolean   @default(false) @map("onboarding_bank_connected")
   onboardingTransactionsSynced  Boolean   @default(false) @map("onboarding_transactions_synced")
@@ -39,8 +45,47 @@ model User {
   tasks                   Task[]
   widgets                 Widget[]
   jobs                    Job[]
+  healthProfile           HealthProfile?
+  healthLogs              HealthLog[]
+  referralCode            String?      @unique @map("referral_code")
+  referredByCode          String?      @map("referred_by_code")
+  referrals               Referral[]   @relation("referrer")
+  referredBy              Referral?    @relation("referred")
+  feedbacks               UserFeedback[]
 
   @@map("users")
+}
+
+// ─── REFERRAL ──────────────────────────────────────────
+
+model Referral {
+  id          String   @id @default(cuid())
+  referrerId  String   @map("referrer_id")
+  referredId  String   @unique @map("referred_id")
+  status      String   @default("signed_up") // signed_up | activated | converted
+  rewardGiven Boolean  @default(false) @map("reward_given")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  referrer    User @relation("referrer", fields: [referrerId], references: [id])
+  referred    User @relation("referred", fields: [referredId], references: [id])
+
+  @@map("referrals")
+}
+
+// ─── USER FEEDBACK ─────────────────────────────────────
+
+model UserFeedback {
+  id        String   @id @default(cuid())
+  userId    String   @map("user_id")
+  type      String   // bug | suggestion | confused | other
+  message   String
+  screen    String?  // which screen they were on
+  metadata  Json?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("user_feedbacks")
 }
 
 model AuthAccount {
@@ -416,6 +461,41 @@ model Job {
   @@index([status, scheduledFor])
   @@index([userId, type])
   @@map("jobs")
+}
+
+// ─── HEALTH ────────────────────────────────────────
+
+model HealthProfile {
+  id                String   @id @default(cuid())
+  userId            String   @unique @map("user_id")
+  goal              String   @default("general_health") // maintain|improve_energy|lose_weight|build_habit|general_health
+  activityLevel     String   @default("medium") @map("activity_level") // low|medium|high
+  workoutGoalPerWeek Int     @default(3) @map("workout_goal_per_week")
+  waterGoalPerDay   Int      @default(8) @map("water_goal_per_day") // glasses
+  sleepGoalHours    Int      @default(8) @map("sleep_goal_hours")
+  reminderEnabled   Boolean  @default(true) @map("reminder_enabled")
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("health_profiles")
+}
+
+model HealthLog {
+  id        String   @id @default(cuid())
+  userId    String   @map("user_id")
+  type      String   // workout|walk|water|sleep
+  value     Float
+  unit      String   // session|minutes|glasses|hours
+  note      String?
+  loggedAt  DateTime @default(now()) @map("logged_at")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, type, loggedAt])
+  @@map("health_logs")
 }
 
 // ─── ANALYTICS ──────────────────────────────────────

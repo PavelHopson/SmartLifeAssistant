@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import { LanguageSwitcher } from "./language-switcher";
 import {
   LayoutDashboard, CreditCard, Zap, CheckSquare,
-  Bell, Layers, User, Settings,
+  Bell, Layers, User, Settings, Heart,
 } from "lucide-react";
 
 const navDef = [
@@ -17,6 +17,7 @@ const navDef = [
   { href: "/tasks", key: "tasks", icon: CheckSquare, hasBadge: false },
   { href: "/subscriptions", key: "subscriptions", icon: CreditCard, hasBadge: false },
   { href: "/notifications", key: "alerts", icon: Bell, hasBadge: true },
+  { href: "/health", key: "health", icon: Heart, hasBadge: false },
 ];
 
 const secondaryDef = [

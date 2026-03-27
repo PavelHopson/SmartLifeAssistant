@@ -138,7 +138,7 @@ function startReminderChecks() {
       const unread = notifs.notifications.filter(n => !n.readAt && n.status === "sent");
       if (unread.length > 0 && unread[0].id !== lastNotifiedId) {
         lastNotifiedId = unread[0].id;
-        const route = getNotifRoute(unread[0].type);
+        const route = getNotifRoute(unread[0]);
         showNativeNotification(unread[0].title, unread[0].body, route);
       }
 
@@ -149,9 +149,29 @@ function startReminderChecks() {
 
 function stopReminderChecks() { if (reminderTimer) { clearInterval(reminderTimer); reminderTimer = null; } }
 
-function getNotifRoute(type) {
-  return { savings_detected: "/wow", action_requires_manual_step: "/tasks", action_completed: "/actions",
-    action_generated: "/actions", reminder_due: "/tasks" }[type] || "/notifications";
+function getNotifRoute(notif) {
+  const type = typeof notif === "string" ? notif : notif?.type;
+  const entityType = notif?.relatedEntityType;
+  const kind = notif?.payload?.kind;
+
+  // Health-related actions → /health or /actions
+  if (entityType === "ai_action" && kind && kind.startsWith("health_")) return "/health";
+
+  // Entity-aware routing
+  if (entityType === "task") return "/tasks";
+  if (entityType === "ai_action") return "/actions";
+  if (entityType === "subscription") return "/subscriptions";
+
+  // Type-based fallback
+  const typeRoutes = {
+    savings_detected: "/wow",
+    action_requires_manual_step: "/actions",
+    action_completed: "/actions",
+    action_generated: "/actions",
+    reminder_due: "/tasks",
+    end_of_day_summary: "/dashboard",
+  };
+  return typeRoutes[type] || "/notifications";
 }
 
 function fetchJSON(url) {

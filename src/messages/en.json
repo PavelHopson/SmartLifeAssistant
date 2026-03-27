@@ -12,6 +12,7 @@
     "alerts": "Alerts",
     "widgets": "Widgets",
     "profile": "Profile",
+    "health": "Health",
     "settings": "Settings",
     "connect": "Connect"
   },
@@ -65,6 +66,10 @@
     "review_new_recurring_charge": "New Charge",
     "follow_up_manual_step": "Follow Up",
     "escalate_priority": "Overdue",
+    "health_workout": "Workout",
+    "health_walk": "Walk",
+    "health_hydration": "Hydration",
+    "health_sleep": "Sleep",
     "generic": "Action"
   },
   "subStatus": {
@@ -126,7 +131,8 @@
     "potentialSavings": "{amount}/yr potential savings",
     "confirmAll": "Confirm all {count} actions",
     "executeAll": "Execute all confirmed actions",
-    "notUsedDays": "Not used for {days} days"
+    "notUsedDays": "Not used for {days} days",
+    "executeAutopilot": "Execute with Autopilot"
   },
   "tasks": {
     "title": "Tasks",
@@ -229,6 +235,10 @@
     "seeResults": "See results",
     "demoNote": "In demo mode: results are available immediately",
     "legal": "Your data is encrypted and never shared. We use Open Banking standards regulated by the FCA.",
+    "whatUsersSave": "What users typically find",
+    "avgMonthly": "avg savings/mo",
+    "unusedSubs": "unused subs",
+    "avgTime": "to first result",
     "errorAuth": "Bank connection was cancelled or failed.",
     "errorGeneric": "Something went wrong during connection.",
     "tryAgain": "Try again",
@@ -246,7 +256,15 @@
     "actionsReady": "Actions ready",
     "whatWeFound": "What we found",
     "fixEverything": "Fix everything",
-    "viewCompleted": "View completed actions"
+    "viewCompleted": "View completed actions",
+    "unlockMore": "Get more from your assistant",
+    "premiumHint": "Premium unlocks guided autopilot, smart reminders, and deeper insights.",
+    "seePricing": "See pricing",
+    "orLetUsHandle": "or let us handle it",
+    "autopilotWowDesc": "With Premium, we execute your savings actions automatically. No manual steps, no forgetting.",
+    "autopilotBenefit1": "Actions confirmed and executed for you",
+    "autopilotBenefit2": "Smart reminders that adapt to your schedule",
+    "autopilotBenefit3": "Deeper health and spending insights"
   },
   "widgets": {
     "title": "Widget Lab",
@@ -296,7 +314,33 @@
   "share": {
     "savedPerYear": "saved per year",
     "issuesFixed": "{count} {count, plural, one {issue} other {issues}} found and fixed",
-    "shareText": "I saved {amount}/year by finding {count} hidden issues with Smart Life Assistant"
+    "shareText": "I saved {amount}/year by finding {count} hidden issues with Smart Life Assistant",
+    "inviteFriends": "Invite friends",
+    "referralDesc": "Share your link. Friends get a free trial, you both save more.",
+    "invited": "{count} invited"
+  },
+  "shareTrigger": {
+    "savingsMsg": "You found {amount} in savings!",
+    "completionMsg": "You completed {count} actions today!",
+    "upgradeMsg": "You unlocked premium. Share the love!",
+    "streakMsg": "{days}-day streak! Keep going.",
+    "savingsShare": "I found {amount}/year in hidden savings using Smart Life Assistant. Try it!",
+    "completionShare": "Just completed {count} actions to optimize my finances with Smart Life Assistant!",
+    "upgradeShare": "Smart Life Assistant is helping me save money on autopilot. Check it out!",
+    "streakShare": "I am on a {days}-day streak keeping my finances in check with Smart Life Assistant!",
+    "tellFriends": "Tell your friends about your result",
+    "share": "Share",
+    "shared": "Shared!",
+    "later": "Later"
+  },
+  "feedback": {
+    "title": "Quick feedback",
+    "bug": "Bug",
+    "suggestion": "Idea",
+    "confused": "Confused",
+    "placeholder": "What happened? What would you improve?",
+    "send": "Send feedback",
+    "thanks": "Thank you! We will look into it."
   },
   "email": {
     "newActions": "{count} new actions ready",
@@ -317,6 +361,179 @@
     "issuesNeedAttention": "{count} issues need your attention.",
     "seeResults": "See What We Found",
     "footer": "You received this email because you use Smart Life Assistant."
+  },
+  "health": {
+    "title": "Health",
+    "subtitle": "Track your health habits and get actionable reminders",
+    "setupTitle": "Set Up Health Goals",
+    "setupSubtitle": "Tell us about your goals so we can help you stay on track.",
+    "goal": "Your Goal",
+    "goalMaintain": "Maintain",
+    "goalEnergy": "Improve Energy",
+    "goalLoseWeight": "Lose Weight",
+    "goalBuildHabit": "Build Routine",
+    "goalGeneral": "General Health",
+    "activityLevel": "Activity Level",
+    "activityLow": "Low",
+    "activityMedium": "Medium",
+    "activityHigh": "High",
+    "workoutGoal": "Workouts per week",
+    "waterGoal": "Water glasses per day",
+    "sleepGoal": "Sleep hours target",
+    "reminders": "Health reminders",
+    "saveProfile": "Save Goals",
+    "updateProfile": "Update Goals",
+    "logTitle": "Quick Log",
+    "logWorkout": "Workout",
+    "logWalk": "Walk",
+    "logWater": "Water",
+    "logSleep": "Sleep",
+    "addWorkout": "Log workout",
+    "addWalk": "Log walk",
+    "addWater": "Add glass",
+    "addSleep": "Log sleep",
+    "minutes": "min",
+    "glasses": "glasses",
+    "hours": "hours",
+    "sessions": "sessions",
+    "recentLogs": "Recent Logs",
+    "noLogs": "No health logs yet. Start tracking!",
+    "workoutsThisWeek": "Workouts this week",
+    "waterToday": "Water today",
+    "lastSleep": "Last sleep",
+    "healthActions": "Health actions",
+    "noProfile": "Set up your health goals to get personalized reminders",
+    "setupCta": "Set up health goals",
+    "dashboardTitle": "Health"
+  },
+  "focus": {
+    "title": "Today's Focus",
+    "allDone": "All caught up for today!",
+    "completedCount": "{count} completed today"
+  },
+  "guided": {
+    "guide": "Guide",
+    "whyItMatters": "Why it matters",
+    "expectedOutcome": "Expected outcome",
+    "steps": "Steps to complete",
+    "stepsCompleted": "steps completed",
+    "markDone": "Mark as done",
+    "remindLater": "Later",
+    "stillPending": "Still pending",
+    "convertToTask": "Save as task",
+    "pinToWidget": "Pin to widget"
+  },
+  "streaks": {
+    "hydration": "{count}-day hydration streak",
+    "workout": "{done}/{goal} workouts this week",
+    "taskCompletion": "{count}-day task streak",
+    "actionCompletion": "{count}-day action streak",
+    "keepItUp": "Keep it up!"
+  },
+  "completion": {
+    "savedToday": "£{amount}/yr saved today",
+    "healthDone": "{count} health action done",
+    "itemsDone": "{count} items completed today",
+    "keepGoing": "Keep going!",
+    "totalSavings": "Total savings: £{amount}/yr"
+  },
+  "daySummary": {
+    "actionsDone": "{count} {count, plural, one {action} other {actions}} completed",
+    "tasksDone": "{count} {count, plural, one {task} other {tasks}} done",
+    "savedToday": "{amount}/yr saved today",
+    "waterGoalMet": "Water goal met",
+    "workoutDone": "Workout done",
+    "stillOpen": "{count} {count, plural, one {task} other {tasks}} still open"
+  },
+  "endOfDay": {
+    "title": "Daily Summary",
+    "nothingToReport": "Nothing to report today"
+  },
+  "actionKindHealth": {
+    "health_workout": "Workout",
+    "health_walk": "Walk",
+    "health_hydration": "Hydration",
+    "health_sleep": "Sleep"
+  },
+  "postCompletion": {
+    "title": "You just did this manually",
+    "description": "With Autopilot, this would have been handled automatically — saving you time every week.",
+    "tryAutopilot": "Try Autopilot",
+    "notNow": "Not now"
+  },
+  "autopilotPreview": {
+    "title": "Autopilot Preview",
+    "subtitle": "See what gets automated",
+    "wouldAutomate": "Would be automated",
+    "actionsAutomatic": "actions",
+    "savedPerYear": "saved/year",
+    "minSaved": "min saved",
+    "more": "more",
+    "startFreeTrial": "Start 7-Day Free Trial",
+    "upgradeDirect": "Upgrade to Premium — £4.99/mo",
+    "securePayment": "Secure payment",
+    "cancelAnytime": "Cancel anytime",
+    "noHiddenFees": "No hidden fees"
+  },
+  "upgradeSuccess": {
+    "badge": "Premium Activated",
+    "title": "Welcome to Premium",
+    "subtitle": "You now have full access to Autopilot and all premium features.",
+    "unlock1": "Autopilot execution enabled",
+    "unlock2": "Smart adaptive reminders",
+    "unlock3": "Advanced daily focus",
+    "unlock4": "Deeper health & spending insights",
+    "tryAutopilot": "Try Autopilot Now"
+  },
+  "autopilot": {
+    "title": "Autopilot Mode",
+    "compactDesc": "Let the assistant handle your actions automatically. Less manual work, more results.",
+    "fullDesc": "Stop managing actions one by one. Autopilot confirms, executes, and follows up on your behalf — so you save time and money effortlessly.",
+    "inlineHint": "Want this handled automatically?",
+    "enable": "Enable",
+    "enableAutopilot": "Enable Autopilot",
+    "actionsReady": "actions ready",
+    "potentialSavings": "potential savings/yr",
+    "featureAuto": "Auto-execute",
+    "featureSmart": "Smart timing",
+    "featureSafe": "Safe & reversible"
+  },
+  "premium": {
+    "badge": "Premium",
+    "unlock": "Unlock",
+    "upgradeNow": "Upgrade to Premium"
+  },
+  "pricing": {
+    "title": "Choose Your Plan",
+    "subtitle": "Upgrade to unlock the full power of your Life Action OS.",
+    "free": "Free",
+    "premium": "Premium",
+    "current": "Current",
+    "active": "Active",
+    "freePlan": "Free Plan",
+    "premiumActive": "Premium Active",
+    "trial": "Trial",
+    "daysLeft": "days left",
+    "forever": "forever",
+    "perMonth": "/month",
+    "includesFree": "Everything in Free, plus:",
+    "startTrial": "Start 7-Day Free Trial",
+    "upgrade": "Upgrade to Premium",
+    "guarantee": "Cancel anytime. No questions asked.",
+    "securePayment": "Secure via Stripe",
+    "cancelAnytime": "Cancel anytime",
+    "noHiddenFees": "No hidden fees",
+    "feature_bankConnection": "Bank connection & sync",
+    "feature_subscriptionDetection": "Subscription detection",
+    "feature_basicActions": "Action generation & execution",
+    "feature_basicReminders": "Basic reminders",
+    "feature_healthTracking": "Health tracking & goals",
+    "feature_guidedAutopilot": "Guided autopilot execution",
+    "feature_advancedReminders": "Smart reminder timing",
+    "feature_dailyFocusPro": "Advanced daily focus",
+    "feature_healthInsights": "Health streak insights",
+    "feature_premiumWidgets": "Premium widget features",
+    "feature_prioritySupport": "Priority support"
   },
   "language": {
     "ru": "Русский",

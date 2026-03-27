@@ -29,6 +29,10 @@ export type AiActionKind =
   | "downgrade_plan"
   | "reduce_spending"
   | "switch_provider"
+  | "health_workout"
+  | "health_walk"
+  | "health_hydration"
+  | "health_sleep"
   | "generic";
 
 export type RiskLevel = "low" | "medium" | "high";
@@ -71,6 +75,46 @@ export interface ActionCardView {
   sourceType: string | null;
   sourceId: string | null;
   groupId: string | null;
+}
+
+export type HealthGoal =
+  | "maintain"
+  | "improve_energy"
+  | "lose_weight"
+  | "build_habit"
+  | "general_health";
+
+export type ActivityLevel = "low" | "medium" | "high";
+
+export type HealthLogType = "workout" | "walk" | "water" | "sleep";
+
+export interface HealthProfileView {
+  goal: HealthGoal;
+  activityLevel: ActivityLevel;
+  workoutGoalPerWeek: number;
+  waterGoalPerDay: number;
+  sleepGoalHours: number;
+  reminderEnabled: boolean;
+}
+
+export interface HealthLogView {
+  id: string;
+  type: HealthLogType;
+  value: number;
+  unit: string;
+  note: string | null;
+  loggedAt: string;
+}
+
+export interface HealthDashboard {
+  hasProfile: boolean;
+  workoutsThisWeek: number;
+  workoutGoal: number;
+  waterToday: number;
+  waterGoal: number;
+  lastSleepHours: number | null;
+  sleepGoal: number;
+  pendingHealthActions: number;
 }
 
 export interface WowData {

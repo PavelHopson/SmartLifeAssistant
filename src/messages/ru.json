@@ -12,6 +12,7 @@
     "alerts": "Уведомления",
     "widgets": "Виджеты",
     "profile": "Профиль",
+    "health": "Здоровье",
     "settings": "Настройки",
     "connect": "Подключить"
   },
@@ -65,6 +66,10 @@
     "review_new_recurring_charge": "Новый платёж",
     "follow_up_manual_step": "Напоминание",
     "escalate_priority": "Просрочено",
+    "health_workout": "Тренировка",
+    "health_walk": "Прогулка",
+    "health_hydration": "Гидратация",
+    "health_sleep": "Сон",
     "generic": "Действие"
   },
   "subStatus": {
@@ -126,7 +131,8 @@
     "potentialSavings": "{amount}/год потенциальной экономии",
     "confirmAll": "Подтвердить все {count} действий",
     "executeAll": "Выполнить все подтверждённые действия",
-    "notUsedDays": "Не используется {days} дней"
+    "notUsedDays": "Не используется {days} дней",
+    "executeAutopilot": "Выполнить автопилотом"
   },
   "tasks": {
     "title": "Задачи",
@@ -229,6 +235,10 @@
     "seeResults": "Показать результаты",
     "demoNote": "В демо-режиме: результаты доступны сразу",
     "legal": "Ваши данные зашифрованы и никогда не передаются третьим лицам. Мы используем стандарты Open Banking.",
+    "whatUsersSave": "Что обычно находят пользователи",
+    "avgMonthly": "экономии/мес",
+    "unusedSubs": "лишних подписок",
+    "avgTime": "до первого результата",
     "errorAuth": "Подключение банка было отменено или не удалось.",
     "errorGeneric": "Что-то пошло не так при подключении.",
     "tryAgain": "Попробовать снова",
@@ -246,7 +256,15 @@
     "actionsReady": "Действий готово",
     "whatWeFound": "Что мы нашли",
     "fixEverything": "Исправить всё",
-    "viewCompleted": "Посмотреть выполненные действия"
+    "viewCompleted": "Посмотреть выполненные действия",
+    "unlockMore": "Получите больше от помощника",
+    "premiumHint": "Премиум открывает автопилот, умные напоминания и глубокую аналитику.",
+    "seePricing": "Смотреть тарифы",
+    "orLetUsHandle": "или доверьте нам",
+    "autopilotWowDesc": "С Премиум мы выполняем действия по экономии автоматически. Без ручных шагов, без забывчивости.",
+    "autopilotBenefit1": "Действия подтверждаются и выполняются за вас",
+    "autopilotBenefit2": "Умные напоминания, адаптированные к вашему расписанию",
+    "autopilotBenefit3": "Глубокая аналитика здоровья и расходов"
   },
   "widgets": {
     "title": "Лаборатория виджетов",
@@ -296,7 +314,33 @@
   "share": {
     "savedPerYear": "экономии в год",
     "issuesFixed": "{count} {count, plural, one {проблема найдена и решена} few {проблемы найдены и решены} other {проблем найдено и решено}}",
-    "shareText": "Я экономлю {amount}/год, обнаружив {count} скрытых проблем с Smart Life Assistant"
+    "shareText": "Я экономлю {amount}/год, обнаружив {count} скрытых проблем с Smart Life Assistant",
+    "inviteFriends": "Пригласить друзей",
+    "referralDesc": "Поделитесь ссылкой. Друзья получат пробный период, вы оба сэкономите больше.",
+    "invited": "{count} приглашено"
+  },
+  "shareTrigger": {
+    "savingsMsg": "Вы нашли {amount} экономии!",
+    "completionMsg": "Вы выполнили {count} действий сегодня!",
+    "upgradeMsg": "Вы разблокировали премиум. Поделитесь!",
+    "streakMsg": "Серия {days} дней! Так держать.",
+    "savingsShare": "Я нашёл {amount}/год скрытых потерь через Smart Life Assistant. Попробуйте!",
+    "completionShare": "Только что выполнил {count} действий для оптимизации финансов в Smart Life Assistant!",
+    "upgradeShare": "Smart Life Assistant помогает мне экономить на автопилоте. Попробуйте!",
+    "streakShare": "У меня серия {days} дней контроля финансов в Smart Life Assistant!",
+    "tellFriends": "Расскажите друзьям о результате",
+    "share": "Поделиться",
+    "shared": "Отправлено!",
+    "later": "Позже"
+  },
+  "feedback": {
+    "title": "Быстрый отзыв",
+    "bug": "Баг",
+    "suggestion": "Идея",
+    "confused": "Непонятно",
+    "placeholder": "Что случилось? Что бы вы улучшили?",
+    "send": "Отправить",
+    "thanks": "Спасибо! Мы изучим ваш отзыв."
   },
   "email": {
     "newActions": "{count} новых действий готово",
@@ -317,6 +361,179 @@
     "issuesNeedAttention": "{count} проблем требуют вашего внимания.",
     "seeResults": "Показать результаты",
     "footer": "Вы получили это письмо, потому что используете Smart Life Assistant."
+  },
+  "health": {
+    "title": "Здоровье",
+    "subtitle": "Отслеживайте привычки и получайте полезные напоминания",
+    "setupTitle": "Настройте цели здоровья",
+    "setupSubtitle": "Расскажите о своих целях, и мы поможем вам их придерживаться.",
+    "goal": "Ваша цель",
+    "goalMaintain": "Поддерживать",
+    "goalEnergy": "Больше энергии",
+    "goalLoseWeight": "Похудеть",
+    "goalBuildHabit": "Выработать привычку",
+    "goalGeneral": "Общее здоровье",
+    "activityLevel": "Уровень активности",
+    "activityLow": "Низкий",
+    "activityMedium": "Средний",
+    "activityHigh": "Высокий",
+    "workoutGoal": "Тренировок в неделю",
+    "waterGoal": "Стаканов воды в день",
+    "sleepGoal": "Цель по сну (часы)",
+    "reminders": "Напоминания о здоровье",
+    "saveProfile": "Сохранить цели",
+    "updateProfile": "Обновить цели",
+    "logTitle": "Быстрая запись",
+    "logWorkout": "Тренировка",
+    "logWalk": "Прогулка",
+    "logWater": "Вода",
+    "logSleep": "Сон",
+    "addWorkout": "Записать тренировку",
+    "addWalk": "Записать прогулку",
+    "addWater": "Добавить стакан",
+    "addSleep": "Записать сон",
+    "minutes": "мин",
+    "glasses": "стаканов",
+    "hours": "часов",
+    "sessions": "занятий",
+    "recentLogs": "Последние записи",
+    "noLogs": "Записей пока нет. Начните отслеживать!",
+    "workoutsThisWeek": "Тренировок за неделю",
+    "waterToday": "Воды сегодня",
+    "lastSleep": "Последний сон",
+    "healthActions": "Действия по здоровью",
+    "noProfile": "Настройте цели здоровья для персональных напоминаний",
+    "setupCta": "Настроить цели здоровья",
+    "dashboardTitle": "Здоровье"
+  },
+  "focus": {
+    "title": "Фокус на сегодня",
+    "allDone": "На сегодня всё выполнено!",
+    "completedCount": "{count} выполнено сегодня"
+  },
+  "guided": {
+    "guide": "Гид",
+    "whyItMatters": "Почему это важно",
+    "expectedOutcome": "Ожидаемый результат",
+    "steps": "Шаги для выполнения",
+    "stepsCompleted": "шагов выполнено",
+    "markDone": "Отметить выполненным",
+    "remindLater": "Позже",
+    "stillPending": "Ещё не готово",
+    "convertToTask": "Сохранить как задачу",
+    "pinToWidget": "Закрепить в виджете"
+  },
+  "streaks": {
+    "hydration": "{count}-дневная серия гидратации",
+    "workout": "{done}/{goal} тренировок за неделю",
+    "taskCompletion": "{count}-дневная серия задач",
+    "actionCompletion": "{count}-дневная серия действий",
+    "keepItUp": "Так держать!"
+  },
+  "completion": {
+    "savedToday": "{amount}/год сэкономлено сегодня",
+    "healthDone": "{count} действие по здоровью выполнено",
+    "itemsDone": "{count} элементов выполнено сегодня",
+    "keepGoing": "Продолжайте!",
+    "totalSavings": "Общая экономия: {amount}/год"
+  },
+  "daySummary": {
+    "actionsDone": "{count} {count, plural, one {действие выполнено} few {действия выполнены} other {действий выполнено}}",
+    "tasksDone": "{count} {count, plural, one {задача выполнена} few {задачи выполнены} other {задач выполнено}}",
+    "savedToday": "{amount}/год сэкономлено сегодня",
+    "waterGoalMet": "Норма воды выполнена",
+    "workoutDone": "Тренировка выполнена",
+    "stillOpen": "{count} {count, plural, one {задача ещё открыта} few {задачи ещё открыты} other {задач ещё открыто}}"
+  },
+  "endOfDay": {
+    "title": "Итоги дня",
+    "nothingToReport": "Нечего отметить за сегодня"
+  },
+  "actionKindHealth": {
+    "health_workout": "Тренировка",
+    "health_walk": "Прогулка",
+    "health_hydration": "Гидратация",
+    "health_sleep": "Сон"
+  },
+  "postCompletion": {
+    "title": "Вы только что сделали это вручную",
+    "description": "С Автопилотом это было бы выполнено автоматически — экономия времени каждую неделю.",
+    "tryAutopilot": "Попробовать автопилот",
+    "notNow": "Не сейчас"
+  },
+  "autopilotPreview": {
+    "title": "Предпросмотр автопилота",
+    "subtitle": "Что будет автоматизировано",
+    "wouldAutomate": "Будет автоматизировано",
+    "actionsAutomatic": "действий",
+    "savedPerYear": "экономии/год",
+    "minSaved": "мин экономии",
+    "more": "ещё",
+    "startFreeTrial": "Начать 7-дневный пробный период",
+    "upgradeDirect": "Перейти на Премиум — £4.99/мес",
+    "securePayment": "Безопасная оплата",
+    "cancelAnytime": "Отмена в любой момент",
+    "noHiddenFees": "Без скрытых платежей"
+  },
+  "upgradeSuccess": {
+    "badge": "Премиум активирован",
+    "title": "Добро пожаловать в Премиум",
+    "subtitle": "Теперь у вас полный доступ к автопилоту и всем премиум-функциям.",
+    "unlock1": "Автопилот выполнения включён",
+    "unlock2": "Умные адаптивные напоминания",
+    "unlock3": "Расширенный фокус дня",
+    "unlock4": "Глубокая аналитика здоровья и расходов",
+    "tryAutopilot": "Попробовать автопилот"
+  },
+  "autopilot": {
+    "title": "Режим автопилота",
+    "compactDesc": "Позвольте помощнику выполнять действия автоматически. Меньше ручной работы, больше результатов.",
+    "fullDesc": "Перестаньте управлять действиями по одному. Автопилот подтверждает, выполняет и следит за результатом — вы экономите время и деньги без усилий.",
+    "inlineHint": "Хотите автоматизировать это?",
+    "enable": "Включить",
+    "enableAutopilot": "Включить автопилот",
+    "actionsReady": "действий готово",
+    "potentialSavings": "экономии/год",
+    "featureAuto": "Авто-выполнение",
+    "featureSmart": "Умный тайминг",
+    "featureSafe": "Безопасно"
+  },
+  "premium": {
+    "badge": "Премиум",
+    "unlock": "Открыть",
+    "upgradeNow": "Перейти на Премиум"
+  },
+  "pricing": {
+    "title": "Выберите план",
+    "subtitle": "Перейдите на Премиум, чтобы раскрыть весь потенциал вашего помощника.",
+    "free": "Бесплатный",
+    "premium": "Премиум",
+    "current": "Текущий",
+    "active": "Активен",
+    "freePlan": "Бесплатный план",
+    "premiumActive": "Премиум активен",
+    "trial": "Пробный период",
+    "daysLeft": "дней осталось",
+    "forever": "навсегда",
+    "perMonth": "/мес",
+    "includesFree": "Всё из Бесплатного, плюс:",
+    "startTrial": "Начать 7-дневный пробный период",
+    "upgrade": "Перейти на Премиум",
+    "guarantee": "Отмена в любой момент. Без вопросов.",
+    "securePayment": "Безопасно через Stripe",
+    "cancelAnytime": "Отмена в любой момент",
+    "noHiddenFees": "Без скрытых платежей",
+    "feature_bankConnection": "Подключение банка и синхронизация",
+    "feature_subscriptionDetection": "Обнаружение подписок",
+    "feature_basicActions": "Генерация и выполнение действий",
+    "feature_basicReminders": "Базовые напоминания",
+    "feature_healthTracking": "Отслеживание здоровья и целей",
+    "feature_guidedAutopilot": "Автопилот с пошаговыми гидами",
+    "feature_advancedReminders": "Умный тайминг напоминаний",
+    "feature_dailyFocusPro": "Расширенный фокус дня",
+    "feature_healthInsights": "Аналитика серий здоровья",
+    "feature_premiumWidgets": "Премиум-функции виджетов",
+    "feature_prioritySupport": "Приоритетная поддержка"
   },
   "language": {
     "ru": "Русский",

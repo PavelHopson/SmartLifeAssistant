@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { formatCurrency } from "@/lib/utils";
 import type { ActionCardView } from "@/lib/domain/types";
-import { CheckCircle, AlertTriangle, XCircle, Check } from "lucide-react";
+import { CheckCircle, AlertTriangle, XCircle, Check, BookOpen, BellOff } from "lucide-react";
 
 function StatusIcon({ status }: { status: string }) {
   if (status === "done") return <CheckCircle size={20} className="text-success" />;
@@ -16,16 +16,19 @@ function StatusIcon({ status }: { status: string }) {
 }
 
 export function ActionListItem({
-  action, onConfirm, onDismiss,
+  action, onConfirm, onDismiss, onOpenGuide, onSnooze,
 }: {
   action: ActionCardView;
   onConfirm?: (id: string) => void;
   onDismiss?: (id: string) => void;
+  onOpenGuide?: (id: string) => void;
+  onSnooze?: (id: string) => void;
 }) {
   const tKind = useTranslations("actionKind");
   const tPriority = useTranslations("priority");
   const tc = useTranslations("common");
   const ts = useTranslations("savings");
+  const tg = useTranslations("guided");
   const isDone = action.status === "done" || action.status === "confirmed";
 
   const priorityKey = action.priority === 0 ? "urgent" : action.priority === 1 ? "high" : "normal";
@@ -52,14 +55,35 @@ export function ActionListItem({
             <span>{ts("confidence", { score: Math.round(action.confidenceScore * 100) })}</span>
           </div>
         </div>
-        {action.status === "pending_user" && (
-          <div className="flex gap-2 flex-shrink-0">
-            {onDismiss && <Button variant="ghost" size="sm" onClick={() => onDismiss(action.id)}>{tc("skip")}</Button>}
-            {onConfirm && <Button variant="accent" size="sm" onClick={() => onConfirm(action.id)}>{tc("fix")}</Button>}
-          </div>
-        )}
-        {action.status === "done" && <Badge variant="success">{tc("completed")}</Badge>}
-        {action.status === "confirmed" && <Badge variant="default">{tc("confirmed")}</Badge>}
+        <div className="flex gap-1.5 flex-shrink-0 flex-wrap justify-end">
+          {action.status === "pending_user" && (
+            <>
+              {onOpenGuide && (
+                <Button variant="outline" size="sm" onClick={() => onOpenGuide(action.id)}>
+                  <BookOpen size={13} className="mr-1" />
+                  {tg("guide")}
+                </Button>
+              )}
+              {onConfirm && (
+                <Button variant="accent" size="sm" onClick={() => onConfirm(action.id)}>
+                  {tc("fix")}
+                </Button>
+              )}
+              {onSnooze && (
+                <Button variant="ghost" size="sm" onClick={() => onSnooze(action.id)} title={tc("snooze")}>
+                  <BellOff size={13} />
+                </Button>
+              )}
+              {onDismiss && (
+                <Button variant="ghost" size="sm" onClick={() => onDismiss(action.id)}>
+                  {tc("skip")}
+                </Button>
+              )}
+            </>
+          )}
+          {action.status === "done" && <Badge variant="success">{tc("completed")}</Badge>}
+          {action.status === "confirmed" && <Badge variant="default">{tc("confirmed")}</Badge>}
+        </div>
       </div>
     </Card>
   );

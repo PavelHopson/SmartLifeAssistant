@@ -182,6 +182,27 @@ function OnboardingContent() {
         </Button>
       </Card>
 
+      {/* Value preview — what users typically find */}
+      <div className="space-y-3">
+        <p className="text-xs font-medium text-muted-foreground text-center uppercase tracking-wider">
+          {t("whatUsersSave")}
+        </p>
+        <div className="grid grid-cols-3 gap-3">
+          <div className="p-3 rounded-xl bg-success/5 border border-success/10 text-center">
+            <p className="text-lg font-bold text-success">£42</p>
+            <p className="text-[10px] text-muted-foreground">{t("avgMonthly")}</p>
+          </div>
+          <div className="p-3 rounded-xl bg-accent/5 border border-accent/10 text-center">
+            <p className="text-lg font-bold text-accent">3</p>
+            <p className="text-[10px] text-muted-foreground">{t("unusedSubs")}</p>
+          </div>
+          <div className="p-3 rounded-xl bg-muted/50 border border-border/50 text-center">
+            <p className="text-lg font-bold">90s</p>
+            <p className="text-[10px] text-muted-foreground">{t("avgTime")}</p>
+          </div>
+        </div>
+      </div>
+
       <p className="text-xs text-muted-foreground text-center">
         {t("legal")}
       </p>

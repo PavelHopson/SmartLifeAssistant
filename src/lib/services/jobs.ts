@@ -6,7 +6,9 @@ export type JobType =
   | "send_notifications"
   | "refresh_subscriptions"
   | "due_task_scan"
-  | "dashboard_summary_refresh";
+  | "dashboard_summary_refresh"
+  | "generate_health_actions"
+  | "end_of_day_summary";
 
 interface EnqueueOptions {
   userId: string;
@@ -147,6 +149,18 @@ async function executeJob(
       console.log(`[JOB] dashboard_summary_refresh for ${userId}`);
       return null;
 
+    case "generate_health_actions": {
+      const { generateHealthActions } = await import("./health-actions");
+      const healthR = await generateHealthActions(userId);
+      return { healthCreated: healthR.created };
+    }
+
+    case "end_of_day_summary": {
+      const { sendEndOfDaySummary } = await import("./end-of-day-summary");
+      const sent = await sendEndOfDaySummary(userId);
+      return { sent };
+    }
+
     default:
       throw new Error(`Unknown job type: ${type}`);
   }
@@ -159,6 +173,7 @@ export async function scheduleUserJobs(userId: string) {
     { type: "refresh_subscriptions", priority: 1 },
     { type: "generate_actions", priority: 1 },
     { type: "due_task_scan", priority: 2 },
+    { type: "generate_health_actions", priority: 2 },
   ];
 
   for (const { type, priority } of types) {

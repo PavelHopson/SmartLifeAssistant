@@ -161,6 +161,41 @@ export async function scanDueTasks(userId: string): Promise<number> {
     }
   }
 
+  // Health action reminders (pending health actions >12h old)
+  const healthActions = await db.aiAction.findMany({
+    where: {
+      userId,
+      kind: { startsWith: "health_" },
+      status: "pending_user",
+      createdAt: { lt: new Date(now.getTime() - 12 * 60 * 60 * 1000) },
+    },
+    take: 2,
+  });
+
+  for (const action of healthActions) {
+    const recentReminder = await db.notification.findFirst({
+      where: {
+        userId,
+        type: "reminder_due",
+        relatedEntityType: "ai_action",
+        relatedEntityId: action.id,
+        createdAt: { gt: new Date(now.getTime() - 24 * 60 * 60 * 1000) },
+      },
+    });
+
+    if (!recentReminder) {
+      await sendNotification({
+        userId,
+        type: "reminder_due",
+        title: "Health reminder",
+        body: `"${action.title}" — take a moment for your health today.`,
+        relatedEntityType: "ai_action",
+        relatedEntityId: action.id,
+      });
+      reminders++;
+    }
+  }
+
   return reminders;
 }
 
