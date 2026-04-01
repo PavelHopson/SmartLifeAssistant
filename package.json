@@ -42,12 +42,18 @@
       "icon": "public/icons/icon-256.ico"
     },
     "nsis": {
-      "oneClick": true,
+      "oneClick": false,
       "perMachine": false,
-      "allowToChangeInstallationDirectory": false,
-      "createDesktopShortcut": true,
+      "allowToChangeInstallationDirectory": true,
+      "allowElevation": true,
+      "createDesktopShortcut": "always",
       "createStartMenuShortcut": true,
-      "shortcutName": "Smart Life Assistant"
+      "shortcutName": "Smart Life Assistant",
+      "installerIcon": "public/icons/icon-256.ico",
+      "uninstallerIcon": "public/icons/icon-256.ico",
+      "installerHeaderIcon": "public/icons/icon-256.ico",
+      "license": "LICENSE",
+      "runAfterFinish": true
     },
     "extraResources": [
       {
