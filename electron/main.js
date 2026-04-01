@@ -6,6 +6,7 @@ const fs = require("fs");
 const log = require("./logger");
 const { canSendNotification, recordNotification } = require("./throttle");
 const { showFirstRun } = require("./first-run");
+const { autoSetup, needsSetup } = require("./auto-setup");
 
 // ─── Config ─────────────────────────────────────────
 
@@ -315,8 +316,10 @@ function showError(title, details) {
 .i{font-size:48px;margin-bottom:16px}h1{font-size:18px;margin-bottom:12px;text-align:center}
 .d{font-size:13px;color:#a3a3a3;text-align:center;line-height:1.6;margin-bottom:24px}
 .h{font-size:12px;color:#737373;background:#262626;padding:16px;border-radius:8px;width:100%;line-height:1.8}code{color:#2563eb}
+.btn{display:inline-block;margin-top:16px;padding:10px 24px;background:#2563eb;color:#fff;border:none;border-radius:8px;font-size:13px;cursor:pointer;font-weight:600}
 </style></head><body><div class="i">⚠</div><h1>${title}</h1><div class="d">${details}</div>
-<div class="h"><strong>Проверьте:</strong><br>• PostgreSQL запущен<br>• <code>.env</code> → <code>DATABASE_URL</code><br>• Порт ${PORT} свободен<br>• <code>npm install</code><br>• <code>npx prisma db push</code></div></body></html>`)}`);
+<div class="h"><strong>Что можно попробовать:</strong><br>• Перезапустите приложение<br>• Проверьте, что порт ${PORT} свободен<br>• Переустановите приложение</div>
+<button class="btn" onclick="window.close()">Закрыть</button></body></html>`)}`);
 }
 
 // ─── Server ─────────────────────────────────────────
@@ -411,10 +414,31 @@ function createTray() {
 // ─── Pre-flight ─────────────────────────────────────
 
 function checkPrereqs() {
-  if (!fs.existsSync(path.join(APP_DIR, ".env"))) { showError("Файл .env не найден", "Создайте .env на основе .env.example"); return false; }
-  if (!fs.existsSync(path.join(APP_DIR, "node_modules"))) { showError("Зависимости не установлены", "Выполните npm install"); return false; }
-  if (!IS_DEV && !fs.existsSync(path.join(APP_DIR, ".next"))) { showError("Не собрано", "Выполните npm run build"); return false; }
+  if (!fs.existsSync(path.join(APP_DIR, "node_modules"))) {
+    showError("Зависимости не установлены", "Файлы приложения повреждены. Переустановите приложение.");
+    return false;
+  }
+  if (!IS_DEV && !fs.existsSync(path.join(APP_DIR, ".next"))) {
+    showError("Приложение не собрано", "Файлы приложения повреждены. Переустановите приложение.");
+    return false;
+  }
   return true;
+}
+
+function runAutoSetup() {
+  try {
+    autoSetup({
+      appDir: APP_DIR,
+      userDataDir: USER_DATA,
+      updateStatus: updateSplash,
+      log: { info: (cat, msg, data) => log.info(cat, msg, data) },
+    });
+    return true;
+  } catch (err) {
+    log.info("SETUP", "Auto-setup failed", { error: err.message });
+    showError("Ошибка настройки", `Не удалось подготовить базу данных.<br><br>${err.message}`);
+    return false;
+  }
 }
 
 // ─── Lifecycle ──────────────────────────────────────
@@ -430,6 +454,19 @@ app.whenReady().then(async () => {
   createSplash();
   updateSplash("Проверка...");
   if (!checkPrereqs()) return;
+
+  // Auto-setup: create DB, .env, migrate, create user
+  if (needsSetup(USER_DATA)) {
+    log.info("APP", "First launch — running auto-setup");
+    if (!runAutoSetup()) return;
+  } else {
+    // Ensure .env exists even on subsequent launches
+    const envPath = path.join(APP_DIR, ".env");
+    if (!fs.existsSync(envPath)) {
+      log.info("APP", "Missing .env on existing install — re-running setup");
+      if (!runAutoSetup()) return;
+    }
+  }
 
   // First run desktop onboarding
   if (isFirstRun()) {
@@ -449,7 +486,7 @@ app.whenReady().then(async () => {
     killOrphanedProcesses();
     updateSplash("Запуск сервера...");
     startServer();
-    try { await waitForServer(45); } catch { showError("Сервер не запустился", "Проверьте базу данных и конфигурацию."); return; }
+    try { await waitForServer(45); } catch { showError("Сервер не запустился", "Попробуйте перезапустить приложение."); return; }
   }
 
   updateSplash("Открытие...");

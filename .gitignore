@@ -9,3 +9,5 @@ dist-electron
 *.log
 .claude/
 *.html
+prisma/smart-life.db
+smart-life.db
