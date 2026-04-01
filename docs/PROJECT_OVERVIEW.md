@@ -54,7 +54,7 @@
 | Frontend | Next.js 16, React 19, TypeScript |
 | Стили | Tailwind CSS 4, shadcn/ui |
 | ORM | Prisma |
-| База данных | PostgreSQL |
+| База данных | SQLite (desktop) / PostgreSQL (web) |
 | Desktop | Electron 41 |
 | Банк | TrueLayer Open Banking API |
 | Оплата | Stripe Checkout + Webhooks |
@@ -494,6 +494,12 @@ docs/
 ---
 
 ## Как запустить
+
+### Для пользователей (zero-config)
+
+1. Скачать `Smart Life Assistant Setup X.X.X.exe` из [Releases](https://github.com/PavelHopson/SmartLifeAssistant/releases)
+2. Запустить → выбрать папку → Далее
+3. Приложение настроит всё автоматически (БД, конфигурация, пользователь)
 
 ### Development
 

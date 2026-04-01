@@ -1,187 +1,227 @@
 # Smart Life Assistant
 
-Персональная операционная система для управления финансами, подписками и повседневными задачами. Находит потери, экономит деньги, помогает действовать.
+Персональная операционная система действий. Находит финансовые потери, следит за здоровьем, помогает завершать дела — и живёт в трее Windows как постоянный помощник.
 
-## Что это
+## Установка для пользователей
 
-Smart Life Assistant — это десктоп-приложение, которое:
+**Скачайте последнюю версию:** [Releases](https://github.com/PavelHopson/SmartLifeAssistant/releases)
 
-- Подключается к банку через Open Banking (TrueLayer)
-- Импортирует транзакции и находит повторяющиеся платежи
-- Обнаруживает неиспользуемые и дублирующиеся подписки
-- Генерирует конкретные действия: отменить, пересмотреть, понизить тариф
-- Рассчитывает потенциальную экономию
-- Создаёт задачи из действий и напоминает о них
-- Живёт в трее Windows как постоянный помощник
+1. Скачайте `Smart Life Assistant Setup X.X.X.exe`
+2. Запустите → выберите папку → Далее
+3. Приложение появится на рабочем столе
 
-## Скриншоты
+**Ничего настраивать не нужно.** База данных, конфигурация и пользователь создаются автоматически при первом запуске.
 
-| Главная | Действия | Задачи |
-|---------|----------|--------|
-| Метрики + ИИ-сводка + action cards | Autopilot: подтвердить и выполнить | Фильтры, приоритеты, сроки |
+> Требования: Windows 10/11 x64
+
+## Что умеет
+
+### Финансы
+- Подключение к банку через Open Banking (TrueLayer)
+- Импорт транзакций за 6 месяцев
+- Нормализация merchant-имён (Netflix, Spotify, Amazon и другие)
+- Обнаружение подписок: активные, неиспользуемые, дубли, рост цен
+- Расчёт потенциальной экономии
+- Обнаружение аномалий расходов
+
+### Действия (AI Actions)
+- Автоматическая генерация действий: отменить подписку, пересмотреть дубль, понизить тариф
+- Autopilot: подтвердить и выполнить все действия разом (Premium)
+- Guided execution: пошаговые инструкции для ручных действий
+- Фоллбэк в задачи, если действие нельзя автоматизировать
+
+### Здоровье
+- Профиль здоровья: цели по тренировкам, воде, сну
+- Быстрое логирование: тренировка, прогулка, вода, сон
+- Генерация действий: пропущена тренировка, мало воды, недосып
+- Стрики: серии выполненных целей
+
+### Задачи и напоминания
+- Задачи с приоритетами (urgent/high/normal) и сроками
+- Создание из действий, вручную или системой
+- Напоминания: за 24ч, за 1ч, при просрочке
+- Snooze (отложить)
+
+### Desktop companion
+- System tray: просроченные задачи, непрочитанные уведомления, быстрый доступ
+- Нативные Windows-уведомления с переходом в нужный экран
+- Автозапуск при входе в Windows
+- Тихие часы (quiet hours)
+- Throttling: макс. 3 уведомления за 5 минут
+- Splash screen при запуске
+- Сворачивание в трей при закрытии
+
+### Монетизация
+- Free / Premium / Trial
+- Stripe Checkout интеграция
+- Autopilot — главная premium-фича
+- PremiumGate на ключевых действиях
+
+### Прочее
+- Виджеты задач (widgets-lab): drag, pin, lock, color
+- SSE realtime обновления (+ опциональный Redis)
+- A/B эксперименты для напоминаний
+- Аналитика: 20+ типов событий
+- Панель бета-операций (/admin)
+- Русский и английский интерфейс
 
 ## Стек
 
-- **Frontend:** Next.js 16, TypeScript, Tailwind CSS
-- **Backend:** Next.js API Routes, Prisma ORM
-- **БД:** PostgreSQL
-- **Desktop:** Electron (Windows)
-- **Банк:** TrueLayer Open Banking API
-- **Email:** Resend (опционально)
-- **ИИ:** Anthropic Claude (опционально, для улучшенных сводок)
-- **Realtime:** SSE + опциональный Redis pub/sub
-- **i18n:** next-intl (русский + английский)
+| Категория | Технология |
+|-----------|-----------|
+| Frontend | Next.js 16, React 19, TypeScript |
+| Стили | Tailwind CSS 4, shadcn/ui |
+| ORM | Prisma |
+| БД | SQLite (desktop) / PostgreSQL (web) |
+| Desktop | Electron 41, NSIS installer |
+| Банк | TrueLayer Open Banking API |
+| Оплата | Stripe Checkout + Webhooks |
+| Email | Resend (опционально) |
+| ИИ | Anthropic Claude (опционально) |
+| Realtime | SSE + опциональный Redis pub/sub |
+| i18n | next-intl (ru + en) |
 
-## Быстрый старт
+## Для разработчиков
 
-### Требования
-
-- Node.js 20+
-- PostgreSQL
-
-### Установка
+### Быстрый старт
 
 ```bash
 git clone https://github.com/PavelHopson/SmartLifeAssistant.git
 cd SmartLifeAssistant
-
 npm install
 cp .env.example .env
-# Отредактируйте .env — укажите DATABASE_URL
-
 npx prisma generate
 npx prisma db push
+npm run dev
+# http://localhost:3000
 ```
 
-### Запуск
+### Desktop (Electron)
 
 ```bash
-# Веб-версия
-npm run dev
-# Открыть http://localhost:3000
-
-# Десктоп-приложение (Electron)
-npm run electron
-
-# Production сборка + десктоп
-npm run build
 npm run electron
 ```
 
-### Сборка установщика (.exe)
+### Сборка installer
 
 ```bash
 npm run electron:build
-# Результат: dist-electron/Smart Life Assistant Setup.exe
+# Результат: dist-electron/Smart Life Assistant Setup X.X.X.exe
 ```
 
 ## Структура проекта
 
 ```
 src/
-  app/                    # Next.js страницы и API
-    (app)/                # Основные экраны (с навигацией)
-      dashboard/          # Главная: метрики, сводка, действия
-      actions/            # Autopilot: подтверждение и выполнение
-      tasks/              # Задачи с приоритетами и сроками
-      subscriptions/      # Обнаруженные подписки
-      notifications/      # Центр уведомлений
-      settings/           # Настройки приложения
-      profile/            # Профиль и статус аккаунта
-      onboarding/         # Подключение банка
-      wow/                # Экран результатов анализа
-      widgets-lab/        # Виджеты задач (прототип)
-      admin/              # Панель бета-операций
-      insights/           # Результаты экспериментов
-    api/                  # API endpoints
-    login/                # Страница входа
-  components/             # React-компоненты
+  app/
+    (app)/                      # Экраны с навигацией
+      dashboard/                # Главная: фокус дня, метрики, сводка
+      actions/                  # Autopilot: подтверждение, guided flows
+      tasks/                    # Задачи: приоритеты, сроки, snooze
+      subscriptions/            # Подписки: статусы, экономия
+      health/                   # Здоровье: профиль, логи, стрики
+      notifications/            # Центр уведомлений
+      settings/                 # Настройки: уведомления, виджеты, ИИ
+      profile/                  # Профиль и статус аккаунта
+      pricing/                  # Тарифы и апгрейд
+      onboarding/               # Подключение банка + анализ
+      wow/                      # WOW-экран после анализа
+      widgets-lab/              # Виджеты задач (прототип)
+      admin/                    # Панель бета-операций
+      insights/experiments/     # A/B эксперименты
+    api/                        # 25+ API endpoints
+    login/                      # Вход
+  components/
+    ui/                         # Button, Card, Badge, Shell
+    premium/                    # PremiumGate, AutopilotPreview, UpgradeSuccess
   lib/
-    services/             # Бизнес-логика
-      executors/          # Обработчики действий
-      realtime/           # SSE + Redis провайдер
-    truelayer/            # Клиент банковского API
-    config/               # Валидация конфигурации
-    domain/               # Типы предметной области
-    i18n/                 # Интернационализация
-  messages/               # Переводы (ru.json, en.json)
+    services/                   # 15+ сервисов бизнес-логики
+      executors/                # 5 типов обработчиков действий
+      realtime/                 # InProcess + Redis провайдеры
+    truelayer/                  # Клиент Open Banking API
+    config/                     # Валидация конфигурации
+    domain/                     # Типы предметной области
+    i18n/                       # Интернационализация
+    premium/                    # Plan helpers, isPremium
+  messages/                     # ru.json, en.json
 
-electron/                 # Electron desktop shell
-  main.js                 # Главный процесс
-  logger.js               # Файловое логирование
-  throttle.js             # Ограничение уведомлений
-  first-run.js            # Онбординг при первом запуске
+electron/
+  main.js                       # Electron: окно, tray, уведомления
+  auto-setup.js                 # Автонастройка: БД, .env, пользователь
+  logger.js                     # Файловое логирование с ротацией
+  throttle.js                   # Ограничение уведомлений
+  first-run.js                  # Desktop-онбординг при первом запуске
 
 prisma/
-  schema.prisma           # Схема БД (15 моделей)
+  schema.prisma                 # 17 моделей БД
 
 docs/
-  DEPLOYMENT.md           # Руководство по развёртыванию
-  BETA_LAUNCH.md          # Чек-лист бета-запуска
+  PROJECT_OVERVIEW.md           # Полный обзор проекта
+  TECHNICAL_DOCS.md             # Техническая документация
+  DEPLOYMENT.md                 # Развёртывание
+  BETA_LAUNCH.md                # Чек-лист бета-запуска
 ```
 
 ## Переменные окружения
 
-| Переменная | Обязательная | Описание |
+> В desktop-режиме все переменные создаются автоматически. Эта таблица для разработчиков.
+
+| Переменная | По умолчанию | Описание |
 |------------|:---:|----------|
-| `DATABASE_URL` | да | PostgreSQL connection string |
-| `AUTH_SECRET` | да | Секрет для шифрования сессий |
-| `NEXTAUTH_URL` | да | URL приложения |
-| `GOOGLE_CLIENT_ID` | нет | Google OAuth (без него — demo режим) |
-| `GOOGLE_CLIENT_SECRET` | нет | Google OAuth |
-| `TRUELAYER_CLIENT_ID` | нет | TrueLayer API |
-| `TRUELAYER_CLIENT_SECRET` | нет | TrueLayer API |
-| `TRUELAYER_SANDBOX` | нет | `true` для sandbox |
-| `RESEND_API_KEY` | нет | Email провайдер (без него — вывод в консоль) |
-| `ANTHROPIC_API_KEY` | нет | ИИ-улучшение сводок |
-| `REDIS_URL` | нет | Redis для multi-instance realtime |
-| `CRON_SECRET` | нет | Защита cron-эндпоинта |
+| `DATABASE_URL` | SQLite | `file:./smart-life.db` или PostgreSQL URL |
+| `DESKTOP_MODE` | `true` | Авто-логин без OAuth |
+| `AUTH_SECRET` | auto | Генерируется при первом запуске |
+| `NEXTAUTH_URL` | `http://localhost:3000` | URL приложения |
+| `GOOGLE_CLIENT_ID` | — | Google OAuth (только web) |
+| `GOOGLE_CLIENT_SECRET` | — | Google OAuth (только web) |
+| `TRUELAYER_CLIENT_ID` | — | Open Banking API |
+| `TRUELAYER_CLIENT_SECRET` | — | Open Banking API |
+| `TRUELAYER_SANDBOX` | `true` | Sandbox или production |
+| `RESEND_API_KEY` | — | Email провайдер |
+| `ANTHROPIC_API_KEY` | — | ИИ-сводки (Claude) |
+| `STRIPE_SECRET_KEY` | — | Оплата (Stripe) |
+| `STRIPE_PRICE_ID` | — | ID продукта в Stripe |
+| `STRIPE_WEBHOOK_SECRET` | — | Webhook verification |
+| `REDIS_URL` | — | Multi-instance realtime |
+| `CRON_SECRET` | — | Защита cron endpoint |
 
-## Возможности
-
-### Ядро продукта
-- Подключение банка и импорт транзакций
-- Нормализация merchant-имён (15+ паттернов)
-- Детектор подписок: частота, консистентность сумм, статусы
-- Генерация действий из подписок (v1) и аномалий расходов (v2)
-- Execution framework с реестром обработчиков
-- Manual-step fallback → автосоздание задач
-
-### Desktop companion
-- Electron с splash screen и error screen
-- Tray с просроченными задачами и непрочитанными уведомлениями
-- Нативные Windows-уведомления с deep-link навигацией
-- Автозапуск при входе в Windows
-- Quiet hours (тихие часы)
-- Throttling уведомлений (макс. 3 за 5 минут)
-- First-run онбординг
-- Файловое логирование с ротацией
-
-### Аналитика и эксперименты
-- 15+ типов отслеживаемых событий
-- A/B эксперименты для тайминга напоминаний
-- Метрики: time-to-wow, completion rate, reminder effectiveness
-- Панель бета-операций (/admin)
-
-## API endpoints
+## API
 
 | Метод | Путь | Описание |
 |-------|------|----------|
-| GET | `/api/health` | Статус системы |
-| GET | `/api/dashboard/summary` | ИИ-сводка |
+| GET | `/api/health` | Статус всех компонентов |
+| GET | `/api/dashboard/summary` | ИИ-сводка + фокус дня |
 | GET | `/api/actions` | Список действий |
 | POST | `/api/actions/confirm` | Подтвердить действия |
 | POST | `/api/actions/execute` | Выполнить действия |
-| POST | `/api/actions/generate-v2` | Сгенерировать действия |
+| POST | `/api/actions/generate-v2` | Генерация из подписок + расходов |
 | GET/POST | `/api/tasks` | CRUD задач |
 | GET | `/api/notifications` | Уведомления |
-| GET | `/api/notifications/count` | Количество непрочитанных |
+| GET | `/api/notifications/count` | Непрочитанные |
+| POST | `/api/notifications/read` | Отметить прочитанными |
 | GET/POST | `/api/settings` | Настройки пользователя |
-| GET | `/api/profile` | Профиль |
+| GET | `/api/profile` | Профиль и статус |
+| GET/POST | `/api/health/profile` | Профиль здоровья |
+| GET/POST | `/api/health/logs` | Логи здоровья |
+| POST | `/api/health/actions/generate` | Генерация health-действий |
+| GET | `/api/streaks` | Стрики пользователя |
+| GET/POST | `/api/widgets` | CRUD виджетов |
 | POST | `/api/jobs/process` | Обработка фоновых задач |
 | GET | `/api/realtime/stream` | SSE поток событий |
-| GET | `/api/admin/status` | Статус бета-операций |
+| POST | `/api/stripe/checkout` | Создать Stripe Checkout сессию |
+| POST | `/api/stripe/webhook` | Stripe webhook |
+| GET | `/api/admin/status` | Панель бета-операций |
+| GET | `/api/experiments/results` | Результаты A/B экспериментов |
+
+## Где хранятся данные (desktop)
+
+| Что | Путь |
+|-----|------|
+| База данных | `%APPDATA%/Smart Life Assistant/smart-life.db` |
+| Настройки desktop | `%APPDATA%/Smart Life Assistant/desktop-settings.json` |
+| Состояние окна | `%APPDATA%/Smart Life Assistant/window-state.json` |
+| Логи | `%APPDATA%/Smart Life Assistant/logs/` |
 
 ## Лицензия
 
-Частный проект.
+MIT License. Copyright (c) 2026 Pavel Hopson.
