@@ -1,6 +1,13 @@
-# Smart Life Assistant — Техническая документация
+<h1 align="center">Technical Documentation</h1>
 
-## Содержание
+<p align="center">
+  Complete technical reference for Smart Life Assistant<br/>
+  <sub>Architecture &bull; Data Models &bull; Services &bull; Algorithms &bull; Infrastructure</sub>
+</p>
+
+---
+
+## Table of Contents
 
 1. [Архитектура](#архитектура)
 2. [Модели данных](#модели-данных)

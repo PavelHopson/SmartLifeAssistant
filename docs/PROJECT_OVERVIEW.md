@@ -1,12 +1,18 @@
-# Smart Life Assistant — Полный обзор проекта
+<h1 align="center">Project Overview</h1>
 
-## Концепция
+<p align="center">
+  Product vision, feature map, development history, and roadmap
+</p>
 
-**Smart Life Assistant** — персональная операционная система действий (Life Action OS).
+---
 
-Продукт превращает реальные сигналы пользователя (банковские транзакции, подписки, здоровье, задачи) в конкретные подтверждаемые и выполнимые действия.
+## Concept
 
-Это не dashboard, не to-do app и не чат-ассистент. Это система, которая находит проблемы, предлагает решения и помогает их завершить.
+**Smart Life Assistant** is a Personal Action OS.
+
+It transforms real-life signals — bank transactions, subscriptions, health data, tasks — into concrete, confirmable, completable actions.
+
+Not a dashboard. Not a todo app. Not a chat assistant. A system that finds problems, proposes solutions, and helps you finish them.
 
 ---
 
