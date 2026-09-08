@@ -27,6 +27,43 @@
 
 ---
 
+<!-- repository-guide:start -->
+[Первый запуск](#readme-start) · [Что внутри](#readme-map) · [Путеводитель](docs/repository-guide.md#start) · [Карта кода](docs/repository-guide.md#map) · [Проверки](docs/repository-guide.md#checks) · [Границы и права](docs/repository-guide.md#boundaries)
+
+<a id="readme-map"></a>
+
+## Проект за минуту
+
+- **[Действия](<src/components/actions>)** — Пользовательский интерфейс повседневных действий.
+- **[Самонаблюдение](<src/components/health>)** — Интерфейс личных записей о здоровье.
+- **[Модель данных](<prisma/schema.prisma>)** — Схема приложения, отдельно от приватной базы пользователя.
+
+<a id="readme-start"></a>
+
+## Начать локально
+
+**Среда:** Node.js и npm. **Источник:** [package.json](<package.json>).
+
+Из корня клонированного репозитория:
+
+```bash
+npm ci
+npm run dev
+```
+
+До запуска настройте отдельную dev-базу и Prisma по инструкции ниже. Electron и внешние интеграции не запускаются этой командой.
+
+<details>
+<summary><strong>Перед первым запуском и изменением кода</strong></summary>
+
+- Команды сверены с исходниками 8 сентября 2026. Это инструкция, а не отметка об успешном запуске или текущем production.
+- Установка зависимостей может обращаться в registry и выполнять lifecycle scripts. Используйте отдельную рабочую среду и демонстрационные данные.
+- Это разные чувствительные области данных. Доступ, AI-обработка и внешние действия проверяются по каждому сценарию.
+
+
+</details>
+<!-- repository-guide:end -->
+
 ## The Problem
 
 You lose money on forgotten subscriptions. You forget tasks. Your health goals slip. Financial apps show data but don't help you **act**.
