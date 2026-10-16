@@ -4,9 +4,13 @@
 
 <h1 align="center">Smart Life Assistant</h1>
 
+<!-- project-links:start -->
+[Документация](docs/repository-guide.md) · [Код](https://github.com/PavelHopson/SmartLifeAssistant/tree/main) · [История изменений](https://github.com/PavelHopson/SmartLifeAssistant/commits/main/)
+<!-- project-links:end -->
+
 <p align="center">
-  <strong>Personal Action OS</strong> — your finances, health, and daily tasks<br/>
-  unified into one intelligent desktop companion.
+  <strong>Персональная система действий</strong><br/>
+  Финансы, здоровье и повседневные задачи в одном приложении для Windows.
 </p>
 
 <p align="center">
@@ -18,11 +22,11 @@
 </p>
 
 <p align="center">
-  <a href="#-quick-start">Quick Start</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-  <a href="#-features">Features</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-  <a href="#%EF%B8%8F-tech-stack">Tech Stack</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-  <a href="#-documentation">Docs</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-  <a href="#-api-reference">API</a>
+  <a href="#quick-start">Быстрый старт</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+  <a href="#features">Возможности</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+  <a href="#tech-stack">Технологии</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+  <a href="#documentation">Документация</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+  <a href="#api-reference">API</a>
 </p>
 
 ---
@@ -64,40 +68,50 @@ npm run dev
 </details>
 <!-- repository-guide:end -->
 
-## The Problem
+<a id="the-problem"></a>
 
-You lose money on forgotten subscriptions. You forget tasks. Your health goals slip. Financial apps show data but don't help you **act**.
+## Задача
 
-## The Solution
+Забытые подписки, незавершённые задачи и пропущенные привычки требуют внимания. Smart Life Assistant собирает их в общий список действий.
 
-Smart Life Assistant doesn't just analyze — it **generates actions**, guides you through them, and keeps them visible until they're done. One app. One tray icon. Everything that needs attention.
+<a id="the-solution"></a>
+
+## Подход
+
+Приложение предлагает действия на основе финансовых данных и привычек, помогает выполнить их по шагам и показывает прогресс. Быстрый доступ — через значок в системном трее.
 
 ---
 
-## Quick Start
+<a id="quick-start"></a>
 
-### For Users
+## Быстрый старт
 
-> **Download &rarr; Install &rarr; Done.** No database setup. No terminal. No configuration.
+<a id="for-users"></a>
+
+### Для пользователей
+
+> **Скачайте установщик из Releases и запустите его.** Локальная база создаётся при первом запуске.
 
 <table>
   <tr>
     <td width="60"><strong>1</strong></td>
-    <td>Download <code>Smart Life Assistant Setup.exe</code> from <a href="https://github.com/PavelHopson/SmartLifeAssistant/releases">Releases</a></td>
+    <td>Скачайте <code>Smart Life Assistant Setup.exe</code> из <a href="https://github.com/PavelHopson/SmartLifeAssistant/releases">Releases</a></td>
   </tr>
   <tr>
     <td><strong>2</strong></td>
-    <td>Run the installer &rarr; choose folder &rarr; Next</td>
+    <td>Запустите установщик, выберите папку и завершите установку</td>
   </tr>
   <tr>
     <td><strong>3</strong></td>
-    <td>App opens automatically. Database, config, and user are created on first launch.</td>
+    <td>При первом запуске создаются локальная база, настройки и пользователь.</td>
   </tr>
 </table>
 
-> **Requirements:** Windows 10/11 x64
+> **Требования:** Windows 10/11 x64
 
-### For Developers
+<a id="for-developers"></a>
+
+### Для разработчиков
 
 ```bash
 git clone https://github.com/PavelHopson/SmartLifeAssistant.git
@@ -110,69 +124,85 @@ npm run electron     # Desktop: Electron window
 
 ---
 
-## Features
+<a id="features"></a>
 
-### Money Intelligence
+## Возможности
 
-| Capability | Description |
+<a id="money-intelligence"></a>
+
+### Анализ финансов
+
+| Возможность | Описание |
 |:-----------|:------------|
-| **Bank Connection** | Open Banking via TrueLayer (sandbox + production) |
-| **Transaction Import** | 6 months of history, normalized merchant names |
-| **Subscription Detection** | Active, unused, duplicate, price increase — all detected automatically |
-| **Savings Calculation** | Shows exactly how much you can save per month and year |
-| **Spending Anomalies** | Detects unusual spending spikes and new recurring charges |
+| **Подключение банка** | Интеграция TrueLayer; среда определяется настройками провайдера |
+| **Импорт операций** | История операций и нормализация названий продавцов |
+| **Поиск подписок** | Активные, неиспользуемые и повторяющиеся подписки, изменения цены |
+| **Оценка экономии** | Расчёт возможной экономии за месяц и год |
+| **Необычные расходы** | Поиск всплесков трат и новых регулярных списаний |
 
-### Action Engine
+<a id="action-engine"></a>
 
-| Capability | Description |
+### Работа с действиями
+
+| Возможность | Описание |
 |:-----------|:------------|
-| **AI Action Generation** | Cancel, review, downgrade — generated from real data |
-| **Autopilot** | Confirm and execute all actions at once (Premium) |
-| **Guided Execution** | Step-by-step instructions for manual actions |
-| **Manual Fallback** | Creates tasks automatically when action can't be automated |
-| **Completion Feedback** | Shows savings impact after each completed action |
+| **Предложения действий** | Отмена, проверка или смена тарифа на основе данных |
+| **Автопилот** | Выполнение поддерживаемых действий после подтверждения |
+| **Выполнение по шагам** | Инструкции для ручных действий |
+| **Ручной сценарий** | Задача для действий, которые нельзя автоматизировать |
+| **Результат** | Отображение эффекта завершённых действий |
 
-### Health Tracking
+<a id="health-tracking"></a>
 
-| Capability | Description |
+### Здоровье и привычки
+
+| Возможность | Описание |
 |:-----------|:------------|
-| **Health Profile** | Goals for workouts, water intake, sleep |
-| **Quick Logging** | Tap to log: workout, walk, water, sleep |
-| **Health Actions** | Missed workout? Low water? System generates reminders |
-| **Streaks** | Track consecutive days of completed goals |
+| **Профиль здоровья** | Цели по тренировкам, воде и сну |
+| **Быстрая запись** | Отметки о тренировке, прогулке, воде и сне |
+| **Напоминания** | Действия по целям и пропущенным привычкам |
+| **Серии** | Дни последовательного выполнения целей |
 
-### Desktop Companion
+<a id="desktop-companion"></a>
 
-| Capability | Description |
+### Приложение для Windows
+
+| Возможность | Описание |
 |:-----------|:------------|
-| **System Tray** | Overdue tasks, unread count, quick navigation |
-| **Native Notifications** | Windows notifications with deep-link to relevant screen |
-| **Auto-Launch** | Starts with Windows, lives in tray |
-| **Quiet Hours** | Respects your do-not-disturb schedule |
-| **Splash Screen** | Premium startup experience with progress |
+| **Системный трей** | Просроченные задачи, счётчик уведомлений и навигация |
+| **Уведомления Windows** | Переход на нужный экран приложения |
+| **Автозапуск** | Запуск вместе с Windows и работа в трее |
+| **Тихие часы** | Расписание без уведомлений |
+| **Экран запуска** | Отображение прогресса загрузки |
 
-### Smart Dashboard
+<a id="smart-dashboard"></a>
 
-| Capability | Description |
+### Обзор дня
+
+| Возможность | Описание |
 |:-----------|:------------|
-| **Daily Focus** | Top 3-4 items across money + health + tasks |
-| **AI Summary** | Deterministic insights, optional LLM enhancement |
-| **Progress Tracking** | Completed actions, savings, streaks — all visible |
-| **Next Best Action** | Always shows the single most important next step |
+| **Фокус дня** | Приоритетные дела по финансам, здоровью и задачам |
+| **Сводка** | Анализ по правилам с необязательным дополнением через LLM |
+| **Прогресс** | Завершённые действия, оценка экономии и серии |
+| **Следующее действие** | Выделение приоритетного шага |
 
-### Monetization
+<a id="monetization"></a>
 
-| Free | Premium (£4.99/mo) |
+### Модель подписки
+
+| Бесплатные возможности | Возможности Premium |
 |:-----|:-------------------|
-| Subscription detection | Everything in Free |
-| Action generation | **Autopilot execution** |
-| Basic reminders | Advanced smart reminders |
-| Dashboard & tasks | Enhanced daily focus |
-| Health logging | Deeper health & spending insights |
+| Поиск подписок | Бесплатные возможности |
+| Предложения действий | **Автопилот** |
+| Базовые напоминания | Расширенные напоминания |
+| Обзор и задачи | Расширенный фокус дня |
+| Журнал привычек | Дополнительный анализ привычек и расходов |
 
 ---
 
-## Tech Stack
+<a id="tech-stack"></a>
+
+## Технологии
 
 <table>
   <tr>
@@ -181,15 +211,15 @@ npm run electron     # Desktop: Electron window
   </tr>
   <tr>
     <td><strong>UI</strong></td>
-    <td>shadcn/ui &bull; Lucide Icons &bull; Custom premium design system</td>
+    <td>shadcn/ui &bull; Lucide Icons &bull; Собственная дизайн-система</td>
   </tr>
   <tr>
     <td><strong>Database</strong></td>
-    <td>SQLite (desktop) &bull; PostgreSQL (web) &bull; Prisma ORM</td>
+    <td>SQLite (Windows) &bull; PostgreSQL (веб) &bull; Prisma ORM</td>
   </tr>
   <tr>
     <td><strong>Desktop</strong></td>
-    <td>Electron 41 &bull; NSIS installer &bull; Auto-launch &bull; Tray</td>
+    <td>Electron 41 &bull; Установщик NSIS &bull; Автозапуск &bull; Трей</td>
   </tr>
   <tr>
     <td><strong>Banking</strong></td>
@@ -201,25 +231,27 @@ npm run electron     # Desktop: Electron window
   </tr>
   <tr>
     <td><strong>Email</strong></td>
-    <td>Resend (production) &bull; Console (development)</td>
+    <td>Resend (публикация) &bull; Консоль (разработка)</td>
   </tr>
   <tr>
     <td><strong>AI</strong></td>
-    <td>Anthropic Claude (optional, for enhanced summaries)</td>
+    <td>Anthropic Claude (необязательное дополнение сводок)</td>
   </tr>
   <tr>
     <td><strong>Realtime</strong></td>
-    <td>SSE &bull; Redis pub/sub (optional, multi-instance)</td>
+    <td>SSE &bull; Redis pub/sub (необязательно, несколько экземпляров)</td>
   </tr>
   <tr>
     <td><strong>i18n</strong></td>
-    <td>next-intl &bull; Russian + English</td>
+    <td>next-intl &bull; Русский + английский</td>
   </tr>
 </table>
 
 ---
 
-## Architecture
+<a id="architecture"></a>
+
+## Архитектура
 
 ```
 src/
@@ -265,106 +297,126 @@ docs/                             # Technical documentation
 
 ---
 
-## API Reference
+<a id="api-reference"></a>
 
-### Core
+## Справочник API
 
-| Method | Endpoint | Description |
+<a id="core"></a>
+
+### Основные методы
+
+| Метод | Эндпоинт | Описание |
 |:-------|:---------|:------------|
-| `GET` | `/api/health` | System health and provider status |
-| `GET` | `/api/dashboard/summary` | AI-powered daily summary |
-| `GET` | `/api/profile` | User profile and account status |
-| `GET/POST` | `/api/settings` | User preferences |
+| `GET` | `/api/health` | Состояние системы и провайдеров |
+| `GET` | `/api/dashboard/summary` | Сводка дня |
+| `GET` | `/api/profile` | Профиль пользователя и состояние аккаунта |
+| `GET/POST` | `/api/settings` | Настройки пользователя |
 
-### Actions
+<a id="actions"></a>
 
-| Method | Endpoint | Description |
+### Действия
+
+| Метод | Эндпоинт | Описание |
 |:-------|:---------|:------------|
-| `GET` | `/api/actions` | List all actions |
-| `POST` | `/api/actions/confirm` | Confirm selected actions |
-| `POST` | `/api/actions/execute` | Execute confirmed actions |
-| `POST` | `/api/actions/generate-v2` | Generate from subscriptions + spending |
+| `GET` | `/api/actions` | Список действий |
+| `POST` | `/api/actions/confirm` | Подтверждение выбранных действий |
+| `POST` | `/api/actions/execute` | Выполнение подтверждённых действий |
+| `POST` | `/api/actions/generate-v2` | Предложения по подпискам и расходам |
 
-### Tasks & Notifications
+<a id="tasks--notifications"></a>
 
-| Method | Endpoint | Description |
+### Задачи и уведомления
+
+| Метод | Эндпоинт | Описание |
 |:-------|:---------|:------------|
-| `GET/POST` | `/api/tasks` | Task CRUD |
-| `GET` | `/api/notifications` | List notifications |
-| `GET` | `/api/notifications/count` | Unread count |
-| `POST` | `/api/notifications/read` | Mark as read |
+| `GET/POST` | `/api/tasks` | Создание, чтение, изменение и удаление задач |
+| `GET` | `/api/notifications` | Список уведомлений |
+| `GET` | `/api/notifications/count` | Число непрочитанных уведомлений |
+| `POST` | `/api/notifications/read` | Отметка о прочтении |
 
-### Health
+<a id="health"></a>
 
-| Method | Endpoint | Description |
+### Здоровье
+
+| Метод | Эндпоинт | Описание |
 |:-------|:---------|:------------|
-| `GET/POST` | `/api/health/profile` | Health goals |
-| `GET/POST` | `/api/health/logs` | Health logging |
-| `POST` | `/api/health/actions/generate` | Generate health actions |
-| `GET` | `/api/streaks` | Active streaks |
+| `GET/POST` | `/api/health/profile` | Цели по здоровью |
+| `GET/POST` | `/api/health/logs` | Журнал привычек |
+| `POST` | `/api/health/actions/generate` | Создание действий по привычкам |
+| `GET` | `/api/streaks` | Активные серии |
 
-### Platform
+<a id="platform"></a>
 
-| Method | Endpoint | Description |
+### Платформа
+
+| Метод | Эндпоинт | Описание |
 |:-------|:---------|:------------|
-| `GET` | `/api/realtime/stream` | SSE event stream |
-| `POST` | `/api/jobs/process` | Process background jobs |
-| `GET/POST` | `/api/widgets` | Widget CRUD |
-| `POST` | `/api/stripe/checkout` | Create payment session |
-| `POST` | `/api/stripe/webhook` | Stripe event handler |
-| `GET` | `/api/admin/status` | Beta operations dashboard |
-| `GET` | `/api/experiments/results` | A/B experiment metrics |
+| `GET` | `/api/realtime/stream` | Поток событий SSE |
+| `POST` | `/api/jobs/process` | Обработка фоновых заданий |
+| `GET/POST` | `/api/widgets` | Управление виджетами |
+| `POST` | `/api/stripe/checkout` | Создание платёжной сессии |
+| `POST` | `/api/stripe/webhook` | Обработка событий Stripe |
+| `GET` | `/api/admin/status` | Операционная панель бета-версии |
+| `GET` | `/api/experiments/results` | Метрики A/B-экспериментов |
 
 ---
 
-## Data Storage (Desktop)
+<a id="data-storage-desktop"></a>
 
-| Data | Location |
+## Хранение данных в Windows
+
+| Данные | Расположение |
 |:-----|:---------|
-| Database | `%APPDATA%/Smart Life Assistant/smart-life.db` |
-| Desktop settings | `%APPDATA%/Smart Life Assistant/desktop-settings.json` |
-| Window state | `%APPDATA%/Smart Life Assistant/window-state.json` |
-| Logs | `%APPDATA%/Smart Life Assistant/logs/` |
+| База данных | `%APPDATA%/Smart Life Assistant/smart-life.db` |
+| Настройки Windows-приложения | `%APPDATA%/Smart Life Assistant/desktop-settings.json` |
+| Состояние окна | `%APPDATA%/Smart Life Assistant/window-state.json` |
+| Журналы | `%APPDATA%/Smart Life Assistant/logs/` |
 
 ---
 
-## Documentation
+<a id="documentation"></a>
 
-| Document | Description |
+## Документация
+
+| Документ | Описание |
 |:---------|:------------|
-| [`docs/TECHNICAL_DOCS.md`](docs/TECHNICAL_DOCS.md) | Full technical reference: architecture, data models, services, algorithms |
-| [`docs/PROJECT_OVERVIEW.md`](docs/PROJECT_OVERVIEW.md) | Product overview, feature map, development history, roadmap |
-| [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) | Web deployment guide: Vercel, PostgreSQL, providers |
-| [`docs/BETA_LAUNCH.md`](docs/BETA_LAUNCH.md) | Beta launch checklist and monitoring guide |
+| [`docs/TECHNICAL_DOCS.md`](docs/TECHNICAL_DOCS.md) | Архитектура, модели данных, сервисы и алгоритмы |
+| [`docs/PROJECT_OVERVIEW.md`](docs/PROJECT_OVERVIEW.md) | Обзор продукта, функции, история и направления развития |
+| [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) | Публикация веб-версии: Vercel, PostgreSQL и провайдеры |
+| [`docs/BETA_LAUNCH.md`](docs/BETA_LAUNCH.md) | Проверки бета-выпуска и мониторинг |
 
 ---
 
-## Environment Variables
+<a id="environment-variables"></a>
 
-> Desktop app configures everything automatically. This table is for developers and web deployment.
+## Переменные окружения
 
-| Variable | Required | Default | Description |
+> Параметры ниже нужны для разработки и веб-развёртывания. Локальные настройки Windows создаются приложением.
+
+| Переменная | Обязательна | По умолчанию | Назначение |
 |:---------|:--------:|:--------|:------------|
-| `DATABASE_URL` | Yes | `file:./smart-life.db` | SQLite path or PostgreSQL URL |
-| `DESKTOP_MODE` | — | `true` | Auto-login without OAuth |
-| `AUTH_SECRET` | Yes | Auto-generated | Session encryption |
-| `NEXTAUTH_URL` | Yes | `http://localhost:3000` | Application URL |
-| `GOOGLE_CLIENT_ID` | — | — | Google OAuth (web only) |
-| `GOOGLE_CLIENT_SECRET` | — | — | Google OAuth (web only) |
-| `TRUELAYER_CLIENT_ID` | — | — | Bank connection |
-| `TRUELAYER_CLIENT_SECRET` | — | — | Bank connection |
-| `TRUELAYER_SANDBOX` | — | `true` | Sandbox mode |
-| `RESEND_API_KEY` | — | — | Email delivery |
-| `ANTHROPIC_API_KEY` | — | — | AI-enhanced summaries |
-| `STRIPE_SECRET_KEY` | — | — | Payment processing |
-| `STRIPE_PRICE_ID` | — | — | Stripe product ID |
-| `STRIPE_WEBHOOK_SECRET` | — | — | Webhook verification |
-| `REDIS_URL` | — | — | Multi-instance realtime |
-| `CRON_SECRET` | — | — | Cron endpoint protection |
+| `DATABASE_URL` | Да | `file:./smart-life.db` | Путь SQLite или адрес PostgreSQL |
+| `DESKTOP_MODE` | — | `true` | Локальный вход без OAuth |
+| `AUTH_SECRET` | Да | Создаётся автоматически | Защита сессии |
+| `NEXTAUTH_URL` | Да | `http://localhost:3000` | Адрес приложения |
+| `GOOGLE_CLIENT_ID` | — | — | Google OAuth (только веб) |
+| `GOOGLE_CLIENT_SECRET` | — | — | Google OAuth (только веб) |
+| `TRUELAYER_CLIENT_ID` | — | — | Подключение банка |
+| `TRUELAYER_CLIENT_SECRET` | — | — | Подключение банка |
+| `TRUELAYER_SANDBOX` | — | `true` | Тестовая среда |
+| `RESEND_API_KEY` | — | — | Доставка почты |
+| `ANTHROPIC_API_KEY` | — | — | Дополнение сводок через AI |
+| `STRIPE_SECRET_KEY` | — | — | Обработка платежей |
+| `STRIPE_PRICE_ID` | — | — | Идентификатор продукта Stripe |
+| `STRIPE_WEBHOOK_SECRET` | — | — | Проверка webhook |
+| `REDIS_URL` | — | — | События между экземплярами |
+| `CRON_SECRET` | — | — | Защита cron-эндпоинта |
 
 ---
 
-## Build
+<a id="build"></a>
+
+## Сборка
 
 ```bash
 # Development
@@ -380,11 +432,11 @@ npm run electron:build         # .exe installer → dist-electron/
 
 <p align="center">
   <strong>Smart Life Assistant</strong><br/>
-  <sub>Built with Next.js, Electron, and Prisma. Designed to help you act, not just analyze.</sub>
+  <sub>Next.js, Electron и Prisma. От анализа — к выполнению повседневных задач.</sub>
 </p>
 
 <p align="center">
-  <a href="https://github.com/PavelHopson/SmartLifeAssistant/releases">Download</a>&nbsp;&nbsp;&bull;&nbsp;&nbsp;
-  <a href="docs/TECHNICAL_DOCS.md">Documentation</a>&nbsp;&nbsp;&bull;&nbsp;&nbsp;
-  <a href="LICENSE">MIT License</a>
+  <a href="https://github.com/PavelHopson/SmartLifeAssistant/releases">Скачать</a>&nbsp;&nbsp;&bull;&nbsp;&nbsp;
+  <a href="docs/TECHNICAL_DOCS.md">Документация</a>&nbsp;&nbsp;&bull;&nbsp;&nbsp;
+  <a href="LICENSE">Лицензия MIT</a>
 </p>
